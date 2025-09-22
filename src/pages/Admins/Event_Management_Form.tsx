@@ -1,8 +1,6 @@
 import React, { useState } from "react";
 import {Event_Date} from "../../components/calendar";
 //add skills necessary
-const urgency_scale = ["Low, Medium, High"];
-
 
 const Management = () => {
   const [formData, setFormData] = useState({
@@ -26,7 +24,7 @@ const Management = () => {
     const options = Array.from(e.target.selectedOptions, option => option.value);
     setFormData({ ...formData, [e.target.name]: options });
   };
-
+  {/** */}
   const handleDateChange = (e: React.ChangeEvent<HTMLInputElement>) => {
     // Simple comma-separated multiple dates
     const dates = e.target.value.split(",").map(d => d.trim());
@@ -48,7 +46,7 @@ const Management = () => {
         <label className="block font-medium mb-1">Event Name *</label>
         <input
           type="text"
-          name="Event Name"
+          name="event_Name"
           value={formData.event_Name}
           onChange={handleChange}
           placeholder="Event Name"
@@ -63,7 +61,7 @@ const Management = () => {
         <label className="block font-medium mb-1">Address 1 *</label>
         <input
           type="text"
-          name="Event Description"
+          name="event_Description"
           value={formData.event_Description}
           onChange={handleChange}
           placeholder="Event Description"
@@ -77,7 +75,7 @@ const Management = () => {
         <label className="block font-medium mb-1">Location</label>
         <input
           type="text"
-          name="Location"
+          name="location"
           value={formData.location}
           onChange={handleChange}
           placeholder="Location"
@@ -89,32 +87,33 @@ const Management = () => {
       {/* Required Skills */}
       <div className="mb-4">
         <label className="block font-medium mb-1">Required Skills *</label>
-        <input
-          type="text"
-          name="Required Skills"
+        <select
+          name="required_skills"
           value={formData.required_skills}
-          onChange={handleChange}
-          placeholder="Required Skills"
-          maxLength={100}
+          onChange={handleMultiSelectChange}
           required
+          multiple
           className="w-full border rounded px-3 py-2"
-        />
+        >
+        <option value="low">Low</option>
+        <option value="medium">Medium</option>
+        <option value='high'>High</option>
+        </select>
       </div>
 
       {/* Urgent Scale */}
       <div className="mb-4">
         <label className="block font-medium mb-1">Urgency *</label>
         <select
-          name="Urgency Scale"
-          multiple
+          name="urgency"
           value={formData.urgency}
-          onChange={handleMultiSelectChange}
+          onChange={handleDropdownChange}
           required
-          className="w-full border rounded px-3 py-2 h-28"
+          className="w-full border rounded px-3 py-2 h-28"  
         >
-          {urgency_scale.map(scale => (
-            <option key={scale} value={scale}>{scale}</option>
-          ))}
+        <option value="low">Low</option>
+        <option value="medium">Medium</option>
+        <option value='high'>High</option>
         </select>
       </div>
 
