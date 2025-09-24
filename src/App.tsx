@@ -23,11 +23,12 @@ function App() {
       <Navbar isLoggedIn={isLoggedIn} onLogout={handleLogout} />
       <Routes>
         <Route
-          path="/home"
-          element={<Home_page/>
-          }
-        />
+          path="/"
+          element={<Navigate to="/home" replace />} />
         
+        <Route
+        path='/home' element={<Home_page/>}
+        />
         {/* Public routes */}
         <Route
           path="/login"
