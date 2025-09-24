@@ -7,6 +7,7 @@ import User_Profile_Management from "./pages/Profile/User_Profile_Management";
 import Management from "./pages/Admins/Event_Management_Form";
 import Volunteer_Match_Form from "./pages/Admins/Volunteer_Match_Form";
 import VolunteerHistory from "./pages/Profile/volunteer_history";
+import Home_page from "./pages/Home_page";
 import ProtectedRoute from "./components/ProtectedRoutes";
 
 function App() {
@@ -20,14 +21,13 @@ function App() {
     <Router>
       <Navbar isLoggedIn={isLoggedIn} onLogout={handleLogout} />
       <Routes>
-        {/* Default route: redirect depending on login state */}
         <Route
           path="/"
           element={
-            isLoggedIn ? <Navigate to="/profile" replace /> : <Navigate to="/login" replace />
+            isLoggedIn ? <Navigate to="/home" replace /> : <Navigate to="/login" replace />
           }
         />
-
+        
         {/* Public routes */}
         <Route
           path="/login"
