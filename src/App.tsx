@@ -1,42 +1,79 @@
-
-import { useState } from 'react'
 import { BrowserRouter as Router, Routes, Route, Navigate } from "react-router-dom";
-import './App.css'
-import Login from "./pages/Authentication/User_Authentication_page";
+import { useState } from "react";
+import Navbar from "./components/navbar";
+import Login from "./pages/Authentication/login";
+import Signup from "./pages/Authentication/signup";
 import User_Profile_Management from "./pages/Profile/User_Profile_Management";
-import Management from './pages/Admins/Event_Management_Form';
-import Volunteer_Match_Form from './pages/Admins/Volunteer_Match_Form'
-import VolunteerHistory from './pages/Profile/volunteer_history';
-function App() {
+import Management from "./pages/Admins/Event_Management_Form";
+import Volunteer_Match_Form from "./pages/Admins/Volunteer_Match_Form";
+import VolunteerHistory from "./pages/Profile/volunteer_history";
+import ProtectedRoute from "./components/ProtectedRoutes";
 
+function App() {
   const [isLoggedIn, setIsLoggedIn] = useState(false);
 
-  const handleLogin = () => {
-    setIsLoggedIn(true);
-  }
-return (
-    <Router>
-      <div>
-        <Routes>
-          <Route
-            path="/"
-            element={
-              isLoggedIn ? (
-                <Navigate to="/profile" />
-              ) : (
-                <Login onLogin={handleLogin} />
-              )
-            }
-          />
-          <Route path="/profile" element={<User_Profile_Management/>} />
-          <Route path="/event management" element={<Management/>}/>
-          <Route path="volunteer matching" element={<Volunteer_Match_Form/>}/>
-          <Route path="volunteer history" element={<VolunteerHistory/>}/>
+  const handleLogin = () => setIsLoggedIn(true);
+  const handleSignup = () => setIsLoggedIn(true);
+  const handleLogout = () => setIsLoggedIn(false);
 
-        </Routes>
-      </div>
+  return (
+    <Router>
+      <Navbar isLoggedIn={isLoggedIn} onLogout={handleLogout} />
+      <Routes>
+        {/* Default route: redirect depending on login state */}
+        <Route
+          path="/"
+          element={
+            isLoggedIn ? <Navigate to="/profile" replace /> : <Navigate to="/login" replace />
+          }
+        />
+
+        {/* Public routes */}
+        <Route
+          path="/login"
+          element={isLoggedIn ? <Navigate to="/profile" replace /> : <Login onLogin={handleLogin} />}
+        />
+        <Route
+          path="/signup"
+          element={isLoggedIn ? <Navigate to="/profile" replace /> : <Signup onSignup={handleSignup} />}
+        />
+
+        {/* Protected routes */}
+        <Route
+          path="/profile"
+          element={
+            <ProtectedRoute isLoggedIn={isLoggedIn}>
+              <User_Profile_Management />
+            </ProtectedRoute>
+          }
+        />
+        <Route
+          path="/event management"
+          element={
+            <ProtectedRoute isLoggedIn={isLoggedIn}>
+              <Management />
+            </ProtectedRoute>
+          }
+        />
+        <Route
+          path="/volunteer matching"
+          element={
+            <ProtectedRoute isLoggedIn={isLoggedIn}>
+              <Volunteer_Match_Form />
+            </ProtectedRoute>
+          }
+        />
+        <Route
+          path="/volunteer history"
+          element={
+            <ProtectedRoute isLoggedIn={isLoggedIn}>
+              <VolunteerHistory />
+            </ProtectedRoute>
+          }
+        />
+      </Routes>
     </Router>
-  )
+  );
 }
 
-export default App
+export default App;

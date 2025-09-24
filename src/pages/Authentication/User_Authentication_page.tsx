@@ -20,7 +20,7 @@ const Login_signup: React.FC<LoginSignupProps> = ({ onLogin }) => {
       console.log("Signing up:", name, email, password);
     }
 
-    onLogin(); // Notify App that login was successful
+    onLogin();
   };
 
   return (
