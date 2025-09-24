@@ -1,5 +1,6 @@
 import { BrowserRouter as Router, Routes, Route, Navigate } from "react-router-dom";
 import { useState } from "react";
+import "./App.css"
 import Navbar from "./components/navbar";
 import Login from "./pages/Authentication/login";
 import Signup from "./pages/Authentication/signup";
@@ -10,6 +11,7 @@ import VolunteerHistory from "./pages/Profile/volunteer_history";
 import Home_page from "./pages/Home_page";
 import Notifications from "./pages/Admins/notification";
 import ProtectedRoute from "./components/ProtectedRoutes";
+
 
 function App() {
   const [isLoggedIn, setIsLoggedIn] = useState(false);
