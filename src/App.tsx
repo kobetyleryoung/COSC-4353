@@ -22,9 +22,8 @@ function App() {
       <Navbar isLoggedIn={isLoggedIn} onLogout={handleLogout} />
       <Routes>
         <Route
-          path="/"
-          element={
-            isLoggedIn ? <Navigate to="/home" replace /> : <Navigate to="/login" replace />
+          path="/home"
+          element={<Home_page/>
           }
         />
         

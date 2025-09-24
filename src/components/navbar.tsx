@@ -10,7 +10,7 @@ const Navbar = ({isLoggedIn, onLogout}:NavbarProps) => {
     <div className='navbar-brand'>
       <nav className="navbar">
         {!isLoggedIn ?(
-            <li><Link to='/'>Login</Link></li>
+            <li><Link to='/login'>Login</Link></li>
         ):(
             <ul className='navbar-links'>
             <li><Link to="/home">Home</Link></li>
