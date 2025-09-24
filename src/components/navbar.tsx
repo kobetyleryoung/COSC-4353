@@ -18,6 +18,7 @@ const Navbar = ({isLoggedIn, onLogout}:NavbarProps) => {
             <li><Link to="/event management">Event Management</Link></li>
             <li><Link to="/volunteer matching">Volunteer Matching</Link></li>
             <li><Link to="/volunteer history">Volunteer History</Link></li>
+            <Link to="/notifications">Notifications</Link>
             <li><button onClick={onLogout}>Logout</button></li>
         </ul>
         )}

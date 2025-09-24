@@ -8,6 +8,7 @@ import Management from "./pages/Admins/Event_Management_Form";
 import Volunteer_Match_Form from "./pages/Admins/Volunteer_Match_Form";
 import VolunteerHistory from "./pages/Profile/volunteer_history";
 import Home_page from "./pages/Home_page";
+import Notifications from "./pages/Admins/notification";
 import ProtectedRoute from "./components/ProtectedRoutes";
 
 function App() {
@@ -67,6 +68,15 @@ function App() {
           element={
             <ProtectedRoute isLoggedIn={isLoggedIn}>
               <VolunteerHistory />
+            </ProtectedRoute>
+          }
+        />
+
+        <Route
+          path="/notifications"
+          element={
+            <ProtectedRoute isLoggedIn={isLoggedIn}>
+              <Notifications />
             </ProtectedRoute>
           }
         />

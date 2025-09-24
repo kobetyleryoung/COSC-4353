@@ -3,9 +3,9 @@ import React from "react";
 const Home_page: React.FC = () => {
   return (
     <div style={styles.container}>
-      <h1 style={styles.heading}>Welcome to CougarAI!</h1>
+      <h1 style={styles.heading}>Welcome to COSC 4353</h1>
       <p style={styles.text}>
-        You are logged in 🎉. This is your home page. From here, you can explore
+       This is your home page. From here, you can explore
         your profile, events, volunteer matching, and more using the navigation bar.
       </p>
     </div>
