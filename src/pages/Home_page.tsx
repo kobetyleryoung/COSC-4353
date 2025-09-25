@@ -1,4 +1,6 @@
 import React from "react";
+import {Link} from "react-router-dom"
+
 
 const Home_page: React.FC = () => {
   return (
@@ -10,9 +12,12 @@ const Home_page: React.FC = () => {
         This is your home page. From here, you can explore your profile,
         events, volunteer matching, and more using the navigation bar.
       </p>
-      <button className="px-6 py-3 rounded-xl bg-accent text-white font-medium hover:bg-yellow-600 transition">
+    <Link to='/login'> 
+        <button className="px-6 py-3 rounded-xl bg-accent text-white font-medium hover:bg-yellow-600 transition">
         Get Started
-      </button>
+        </button>
+    </Link>
+
     </div>
   );
 };
