@@ -1,7 +1,12 @@
 import { useState } from "react";
 import "./Authentication_Page.css";
 import { Link } from 'react-router-dom';
-
+import VisibilityOutlinedIcon from '@mui/icons-material/VisibilityOutlined';
+import VisibilityOffOutlinedIcon from '@mui/icons-material/VisibilityOffOutlined';
+import ErrorOutlineIcon from '@mui/icons-material/ErrorOutline';
+import CheckCircleOutlineIcon from '@mui/icons-material/CheckCircleOutline';
+import RadioButtonUncheckedIcon from '@mui/icons-material/RadioButtonUnchecked';
+import AssignmentIcon from '@mui/icons-material/Assignment';
 
 // Validation regex patterns
 const USER_REGEX = /^[A-z0-9-_]{4,20}$/;
@@ -130,7 +135,7 @@ const Signup: React.FC<SignupProps> = ({ onSignup }) => {
             />
             {nameError && (
               <p className="text-red-500 text-sm mt-1 flex items-center">
-                <span className="mr-1">⚠️</span>
+                <ErrorOutlineIcon sx={{ fontSize: 16, marginRight: 0.5 }} />
                 {nameError}
               </p>
             )}
@@ -152,7 +157,7 @@ const Signup: React.FC<SignupProps> = ({ onSignup }) => {
             />
             {emailError && (
               <p className="text-red-500 text-sm mt-1 flex items-center">
-                <span className="mr-1">⚠️</span>
+                <ErrorOutlineIcon sx={{ fontSize: 16, marginRight: 0.5 }} />
                 {emailError}
               </p>
             )}
@@ -178,17 +183,18 @@ const Signup: React.FC<SignupProps> = ({ onSignup }) => {
                 className="absolute right-3 top-1/2 transform -translate-y-1/2 text-gray-500 hover:text-gray-700 focus:outline-none transition-colors"
                 onClick={() => setShowPassword(!showPassword)}
                 tabIndex={-1}
+                title={showPassword ? "Hide password" : "Show password"}
               >
                 {showPassword ? (
-                  <span className="text-xl" title="Hide password">👁️</span>
+                  <VisibilityOffOutlinedIcon sx={{ fontSize: 20 }} />
                 ) : (
-                  <span className="text-xl" title="Show password">👁️‍🗨️</span>
+                  <VisibilityOutlinedIcon sx={{ fontSize: 20 }} />
                 )}
               </button>
             </div>
             {passwordError && (
               <p className="text-red-500 text-sm mt-1 flex items-center">
-                <span className="mr-1">⚠️</span>
+                <ErrorOutlineIcon sx={{ fontSize: 16, marginRight: 0.5 }} />
                 {passwordError}
               </p>
             )}
@@ -199,19 +205,39 @@ const Signup: React.FC<SignupProps> = ({ onSignup }) => {
                 <p className="font-medium text-gray-700 mb-1">Password Requirements:</p>
                 <div className="grid grid-cols-2 gap-1">
                   <span className={`flex items-center ${/[a-z]/.test(password) ? 'text-green-600' : 'text-gray-400'}`}>
-                    {/[a-z]/.test(password) ? '✅' : '⭕'} Lowercase
+                    {/[a-z]/.test(password) ? (
+                      <CheckCircleOutlineIcon sx={{ fontSize: 14, marginRight: 0.5 }} />
+                    ) : (
+                      <RadioButtonUncheckedIcon sx={{ fontSize: 14, marginRight: 0.5 }} />
+                    )} Lowercase
                   </span>
                   <span className={`flex items-center ${/[A-Z]/.test(password) ? 'text-green-600' : 'text-gray-400'}`}>
-                    {/[A-Z]/.test(password) ? '✅' : '⭕'} Uppercase
+                    {/[A-Z]/.test(password) ? (
+                      <CheckCircleOutlineIcon sx={{ fontSize: 14, marginRight: 0.5 }} />
+                    ) : (
+                      <RadioButtonUncheckedIcon sx={{ fontSize: 14, marginRight: 0.5 }} />
+                    )} Uppercase
                   </span>
                   <span className={`flex items-center ${/[0-9]/.test(password) ? 'text-green-600' : 'text-gray-400'}`}>
-                    {/[0-9]/.test(password) ? '✅' : '⭕'} Number
+                    {/[0-9]/.test(password) ? (
+                      <CheckCircleOutlineIcon sx={{ fontSize: 14, marginRight: 0.5 }} />
+                    ) : (
+                      <RadioButtonUncheckedIcon sx={{ fontSize: 14, marginRight: 0.5 }} />
+                    )} Number
                   </span>
                   <span className={`flex items-center ${/[!@$]/.test(password) ? 'text-green-600' : 'text-gray-400'}`}>
-                    {/[!@$]/.test(password) ? '✅' : '⭕'} !@$ Special
+                    {/[!@$]/.test(password) ? (
+                      <CheckCircleOutlineIcon sx={{ fontSize: 14, marginRight: 0.5 }} />
+                    ) : (
+                      <RadioButtonUncheckedIcon sx={{ fontSize: 14, marginRight: 0.5 }} />
+                    )} !@$ Special
                   </span>
                   <span className={`flex items-center ${password.length >= 8 && password.length <= 20 ? 'text-green-600' : 'text-gray-400'}`}>
-                    {password.length >= 8 && password.length <= 20 ? '✅' : '⭕'} 8-20 chars
+                    {password.length >= 8 && password.length <= 20 ? (
+                      <CheckCircleOutlineIcon sx={{ fontSize: 14, marginRight: 0.5 }} />
+                    ) : (
+                      <RadioButtonUncheckedIcon sx={{ fontSize: 14, marginRight: 0.5 }} />
+                    )} 8-20 chars
                   </span>
                 </div>
               </div>
@@ -235,18 +261,33 @@ const Signup: React.FC<SignupProps> = ({ onSignup }) => {
           {/* Validation Summary */}
           {(name || email || password) && (
             <div className="bg-gray-50 p-3 rounded-lg text-sm">
-              <h4 className="font-medium text-gray-700 mb-2">📋 Validation Status:</h4>
+              <h4 className="font-medium text-gray-700 mb-2 flex items-center">
+                <AssignmentIcon sx={{ fontSize: 16, marginRight: 0.5 }} />
+                Validation Status:
+              </h4>
               <ul className="space-y-1">
                 <li className={`flex items-center ${name && !nameError ? 'text-green-600' : 'text-gray-500'}`}>
-                  <span className="mr-2">{name && !nameError ? '✅' : '⏳'}</span>
+                  {name && !nameError ? (
+                    <CheckCircleOutlineIcon sx={{ fontSize: 16, marginRight: 0.5 }} />
+                  ) : (
+                    <RadioButtonUncheckedIcon sx={{ fontSize: 16, marginRight: 0.5 }} />
+                  )}
                   Valid username (4-20 chars, A-z, 0-9, -, _)
                 </li>
                 <li className={`flex items-center ${email && !emailError ? 'text-green-600' : 'text-gray-500'}`}>
-                  <span className="mr-2">{email && !emailError ? '✅' : '⏳'}</span>
+                  {email && !emailError ? (
+                    <CheckCircleOutlineIcon sx={{ fontSize: 16, marginRight: 0.5 }} />
+                  ) : (
+                    <RadioButtonUncheckedIcon sx={{ fontSize: 16, marginRight: 0.5 }} />
+                  )}
                   Valid email address
                 </li>
                 <li className={`flex items-center ${password && !passwordError ? 'text-green-600' : 'text-gray-500'}`}>
-                  <span className="mr-2">{password && !passwordError ? '✅' : '⏳'}</span>
+                  {password && !passwordError ? (
+                    <CheckCircleOutlineIcon sx={{ fontSize: 16, marginRight: 0.5 }} />
+                  ) : (
+                    <RadioButtonUncheckedIcon sx={{ fontSize: 16, marginRight: 0.5 }} />
+                  )}
                   Strong password (8-20 chars, A-z, 0-9, !@$)
                 </li>
               </ul>

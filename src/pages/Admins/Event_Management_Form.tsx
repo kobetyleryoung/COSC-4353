@@ -1,5 +1,7 @@
 import React, { useState } from "react";
 import {Event_Date} from "../../components/calendar";
+import VisibilityOutlinedIcon from '@mui/icons-material/VisibilityOutlined';
+import VisibilityOffOutlinedIcon from '@mui/icons-material/VisibilityOffOutlined';
 
 const Management = () => {
   const [formData, setFormData] = useState({
@@ -10,6 +12,9 @@ const Management = () => {
     urgency: "",
     availability: [] as string[], // ISO dates as strings
   });
+
+  // Example state for password visibility (you can use this pattern anywhere)
+  const [showPassword, setShowPassword] = useState(false);
 
   const handleChange = (e: React.ChangeEvent<HTMLInputElement | HTMLTextAreaElement>) => {
     setFormData({ ...formData, [e.target.name]: e.target.value });
@@ -128,6 +133,31 @@ const Management = () => {
             onChange={(dates: any) => setFormData({ ...formData, availability: dates })}
           />
 
+      {/* MUI Icon Demonstration - Password Field Example */}
+      <div className="mb-4">
+        <label className="block font-medium mb-1">Admin Password (Demo)</label>
+        <div className="relative">
+          <input
+            type={showPassword ? "text" : "password"}
+            placeholder="Enter admin password"
+            className="w-full border rounded px-3 py-2 pr-10"
+          />
+          <button
+            type="button"
+            className="absolute right-2 top-1/2 transform -translate-y-1/2 text-gray-500 hover:text-gray-700"
+            onClick={() => setShowPassword(!showPassword)}
+          >
+            {showPassword ? (
+              <VisibilityOffOutlinedIcon sx={{ fontSize: 20 }} />
+            ) : (
+              <VisibilityOutlinedIcon sx={{ fontSize: 20 }} />
+            )}
+          </button>
+        </div>
+        <p className="text-sm text-gray-500 mt-1">
+          Click the eye icon to toggle password visibility (MUI Icon Demo)
+        </p>
+      </div>
 
       {/* Submit Button */}
       <div className="flex justify-end">
