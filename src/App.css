@@ -3,7 +3,7 @@ body {
   min-height: 100vh;
   
   /* 🌿 Animated GREEN gradient background - Nature vibes */
-background: linear-gradient(-45deg, #667db6, #0082c8, #0094cc, #667db6, #76b8dc);  background-size: 400% 400% !important;
+  background: linear-gradient(-45deg, #667cb4, #0082c8, #0094cc, #7094ee, #76b8dc);
   animation: gradientShift 12s ease infinite;
   
   font-family: sans-serif;
@@ -11,7 +11,7 @@ background: linear-gradient(-45deg, #667db6, #0082c8, #0094cc, #667db6, #76b8dc)
 
 /* Ensure html also has the gradient for full coverage */
 html {
-  background: linear-gradient(-45deg, #667db6, #0082c8, #0094cc, #667db6, #76b8dc) !important;
+  background: linear-gradient(-45deg, #667db6, #0082c8, #0094cc, #667db6, #76b8dc);
   background-size: 400% 400% !important;
   animation: gradientShift 12s ease infinite;
 }
@@ -35,118 +35,6 @@ html {
   }
 }
 
-/* 🎨 Additional Complex Gradient Options - Replace the body background above with any of these */
 
-/* Option 1: Sunset Vibes */
-.gradient-sunset {
-  background: linear-gradient(45deg, #ff9a9e 0%, #fecfef 25%, #fecfef 75%, #fecfef 100%);
-}
 
-/* Option 2: Ocean Depths */
-.gradient-ocean {
-  background: linear-gradient(180deg, #a8edea 0%, #fed6e3 25%, #d299c2 50%, #fef9d3 75%, #89fffd 100%);
-}
 
-/* Option 3: Northern Lights */
-.gradient-aurora {
-  background: linear-gradient(135deg, #667eea 0%, #764ba2 25%, #f093fb 50%, #f5576c 75%, #4facfe 100%);
-}
-
-/* Option 4: Galaxy */
-.gradient-galaxy {
-  background: linear-gradient(225deg, #2c1810 0%, #614385 25%, #516395 50%, #614385 75%, #2c1810 100%);
-}
-
-/* Option 5: Tropical Paradise */
-.gradient-tropical {
-  background: linear-gradient(60deg, #29ffc6 0%, #20e3b2 25%, #0cebeb 50%, #29ffc6 75%, #ffcc5c 100%);
-}
-
-/* Option 6: Purple Rain */
-.gradient-purple {
-  background: linear-gradient(315deg, #7209b7 0%, #a663cc 25%, #4cc9f0 50%, #7209b7 75%, #560bad 100%);
-}
-
-/* Option 7: Radial Burst */
-.gradient-radial {
-  background: radial-gradient(circle at 30% 40%, #ffecd2 0%, #fcb69f 25%, #ff8a80 50%, #ff7043 75%, #bf360c 100%);
-}
-
-/* Option 8: Animated Rainbow */
-.gradient-animated {
-  background: linear-gradient(-45deg, #ee7752, #e73c7e, #23a6d5, #23d5ab, #ffd89b, #19547b);
-  background-size: 600% 600%;
-  animation: gradientShift 8s ease infinite;
-}
-
-/* 🎨 ADDITIONAL STUNNING GRADIENT OPTIONS */
-
-/* 🔥 Fire & Passion */
-.gradient-fire {
-  background: linear-gradient(-45deg, #ff9a9e, #fecfef, #fecfef, #fecfef, #ff6b6b, #ee5a24);
-  background-size: 400% 400%;
-  animation: gradientShift 12s ease infinite;
-}
-
-/* 🌊 Ocean Waves */
-.gradient-ocean-deep {
-  background: linear-gradient(-45deg, #667db6, #0082c8, #0094cc, #667db6, #76b8dc);
-  background-size: 400% 400%;
-  animation: gradientShift 15s ease infinite;
-}
-
-/* 🌅 Sunrise */
-.gradient-sunrise {
-  background: linear-gradient(-45deg, #fa709a, #fee140, #fa709a, #ffa726, #ff7043);
-  background-size: 400% 400%;
-  animation: gradientShift 10s ease infinite;
-}
-
-/* 🍇 Royal Purple */
-.gradient-royal {
-  background: linear-gradient(-45deg, #667eea, #764ba2, #667eea, #f093fb, #f5576c);
-  background-size: 400% 400%;
-  animation: gradientShift 14s ease infinite;
-}
-
-/* 🌸 Cotton Candy */
-.gradient-cotton-candy {
-  background: linear-gradient(-45deg, #ffecd2, #fcb69f, #ff8a80, #ff7043, #ffab91);
-  background-size: 400% 400%;
-  animation: gradientShift 13s ease infinite;
-}
-
-/* ❄️ Ice Crystal */
-.gradient-ice {
-  background: linear-gradient(-45deg, #e0f2f1, #b2dfdb, #4db6ac, #00695c, #26a69a);
-  background-size: 400% 400%;
-  animation: gradientShift 16s ease infinite;
-}
-
-/* 🌟 Cosmic */
-.gradient-cosmic {
-  background: linear-gradient(-45deg, #2c1810, #614385, #516395, #614385, #2c1810);
-  background-size: 400% 400%;
-  animation: gradientShift 18s ease infinite;
-}
-
-/* 🏖️ Beach Vibes */
-.gradient-beach {
-  background: linear-gradient(-45deg, #ffd89b, #19547b, #74b9ff, #0984e3, #00b894);
-  background-size: 400% 400%;
-  animation: gradientShift 11s ease infinite;
-}
-
-/* 🍊 Citrus Burst */
-.gradient-citrus {
-  background: linear-gradient(-45deg, #ff7675, #fdcb6e, #e17055, #00b894, #00cec9);
-  background-size: 400% 400%;
-  animation: gradientShift 9s ease infinite;
-}
-
-/* 🌺 Tropical Flowers */
-.gradient-flowers {
-  background: linear-gradient(-45deg, #fd79a8, #fdcb6e, #e84393, #00b894, #74b9ff);
-  background-size: 400% 400%;
-  animation: gradientShift 13s ease infinite;
-}

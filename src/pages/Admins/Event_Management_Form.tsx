@@ -1,6 +1,5 @@
 import React, { useState } from "react";
 import {Event_Date} from "../../components/calendar";
-//add skills necessary
 
 const Management = () => {
   const [formData, setFormData] = useState({

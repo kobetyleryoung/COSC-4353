@@ -7,13 +7,13 @@ interface NavbarProps {
 
 const Navbar = ({ isLoggedIn, onLogout }: NavbarProps) => {
   return (
-    <div className="flex justify-end items-center p-4 bg-blue-500 text-white">
+    <div className="flex justify-end items-center p-4 bg-gray-100 text-white rounded-b-sm border-width: 1px">
       <nav className="navbar">
         {!isLoggedIn ? (
           <ul className="flex space-x-6">
             <li>
-              <Link to='/home' className="hover:underline">Home</Link>
-              <Link to="/login" className="hover:underline">
+              <Link to='/home' className="hover:underline px-3 py-3 text-white">Home</Link>
+              <Link to="/login" className="hover:underline text-white">
                 Login
               </Link>
             </li>
