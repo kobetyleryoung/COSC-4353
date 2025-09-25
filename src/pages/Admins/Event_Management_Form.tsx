@@ -94,9 +94,14 @@ const Management = () => {
           multiple
           className="w-full border rounded px-3 py-2"
         >
-        <option value="low">Low</option>
-        <option value="medium">Medium</option>
-        <option value='high'>High</option>
+        <option value="communication">Communication</option>
+        <option value="organization">Organization</option>
+        <option value='adaptability'>Adaptability</option>
+        <option value='customer support'>Customer Support</option>
+        <option value='problem solving'>Problem Solving</option>
+        <option value='teamwork'>Teamwork</option>
+        <option value='time management'>Time Management</option>
+
         </select>
       </div>
 
