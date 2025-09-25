@@ -1,30 +1,67 @@
-import {Link} from 'react-router-dom'
+import { Link } from "react-router-dom";
 
 interface NavbarProps {
-    isLoggedIn: boolean;
-    onLogout: () => void;
+  isLoggedIn: boolean;
+  onLogout: () => void;
 }
 
-const Navbar = ({isLoggedIn, onLogout}:NavbarProps) => {
+const Navbar = ({ isLoggedIn, onLogout }: NavbarProps) => {
   return (
-    <div className='navbar-brand'>
+    <div className="flex justify-between items-center p-4 bg-blue-500 text-white">
       <nav className="navbar">
-        {!isLoggedIn ?(
-            <li><Link to='/login'>Login</Link></li>
-        ):(
-            <ul className='navbar-links'>
-            <li><Link to="/home">Home</Link></li>
-            <li><Link to="/profile">Profile</Link></li>
-            <li><Link to="/event management">Event Management</Link></li>
-            <li><Link to="/volunteer matching">Volunteer Matching</Link></li>
-            <li><Link to="/volunteer history">Volunteer History</Link></li>
-            <Link to="/notifications">Notifications</Link>
-            <li><button onClick={onLogout}>Logout</button></li>
-        </ul>
+        {!isLoggedIn ? (
+          <ul className="flex space-x-6">
+            <li>
+              <Link to="/login" className="hover:underline">
+                Login
+              </Link>
+            </li>
+          </ul>
+        ) : (
+          <ul className="flex space-x-6">
+            <li>
+              <Link to="/home" className="hover:underline">
+                Home
+              </Link>
+            </li>
+            <li>
+              <Link to="/profile" className="hover:underline">
+                Profile
+              </Link>
+            </li>
+            <li>
+              <Link to="/event-management" className="hover:underline">
+                Event Management
+              </Link>
+            </li>
+            <li>
+              <Link to="/volunteer-matching" className="hover:underline">
+                Volunteer Matching
+              </Link>
+            </li>
+            <li>
+              <Link to="/volunteer-history" className="hover:underline">
+                Volunteer History
+              </Link>
+            </li>
+            <li>
+              <Link to="/notifications" className="hover:underline">
+                Notifications
+              </Link>
+            </li>
+            <li>
+              <button
+                onClick={onLogout}
+                className="bg-red-500 hover:bg-red-600 px-3 py-1 rounded"
+              >
+                Logout
+              </button>
+            </li>
+          </ul>
         )}
-      </nav>  
+      </nav>
     </div>
-  
-    )
-}
-export default Navbar
+  );
+};
+
+export default Navbar;

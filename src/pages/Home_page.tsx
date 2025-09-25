@@ -2,33 +2,19 @@ import React from "react";
 
 const Home_page: React.FC = () => {
   return (
-    <div style={styles.container}>
-      <h1 style={styles.heading}>Welcome to COSC 4353</h1>
-      <p style={styles.text}>
-       This is your home page. From here, you can explore
-        your profile, events, volunteer matching, and more using the navigation bar.
+    <div className="flex flex-col items-center justify-center h-[80vh] text-center">
+      <h1 className="text-5xl font-heading mb-6 text-brand">
+        Welcome to COSC 4353
+      </h1>
+      <p className="text-lg text-gray-700 max-w-xl mb-6">
+        This is your home page. From here, you can explore your profile,
+        events, volunteer matching, and more using the navigation bar.
       </p>
+      <button className="px-6 py-3 rounded-xl bg-accent text-white font-medium hover:bg-yellow-600 transition">
+        Get Started
+      </button>
     </div>
   );
-};
-
-const styles: { [key: string]: React.CSSProperties } = {
-  container: {
-    display: "flex",
-    flexDirection: "column",
-    alignItems: "center",
-    justifyContent: "center",
-    height: "80vh",
-    textAlign: "center",
-  },
-  heading: {
-    fontSize: "2.5rem",
-    marginBottom: "1rem",
-  },
-  text: {
-    fontSize: "1.2rem",
-    color: "#666",
-  },
 };
 
 export default Home_page;

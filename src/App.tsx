@@ -8,6 +8,7 @@ import User_Profile_Management from "./pages/Profile/User_Profile_Management";
 import Management from "./pages/Admins/Event_Management_Form";
 import Volunteer_Match_Form from "./pages/Admins/Volunteer_Match_Form";
 import VolunteerHistory from "./pages/Profile/volunteer_history";
+import Layout from "./components/Layout";
 import Home_page from "./pages/Home_page";
 import Notifications from "./pages/Admins/notification";
 import ProtectedRoute from "./components/ProtectedRoutes";
@@ -22,69 +23,68 @@ function App() {
 
   return (
     <Router>
-      <Navbar isLoggedIn={isLoggedIn} onLogout={handleLogout} />
-      <Routes>
-        <Route
-          path="/"
-          element={<Navigate to="/home" replace />} />
-        
-        <Route
-        path='/home' element={<Home_page/>}
-        />
-        {/* Public routes */}
-        <Route
-          path="/login"
-          element={isLoggedIn ? <Navigate to="/profile" replace /> : <Login onLogin={handleLogin} />}
-        />
-        <Route
-          path="/signup"
-          element={isLoggedIn ? <Navigate to="/profile" replace /> : <Signup onSignup={handleSignup} />}
-        />
+  <Layout>
+    <Navbar isLoggedIn={isLoggedIn} onLogout={handleLogout} />
+    <Routes>
+      <Route path="/" element={<Navigate to="/home" replace />} />
 
-        {/* Protected routes */}
-        <Route
-          path="/profile"
-          element={
-            <ProtectedRoute isLoggedIn={isLoggedIn}>
-              <User_Profile_Management />
-            </ProtectedRoute>
-          }
-        />
-        <Route
-          path="/event management"
-          element={
-            <ProtectedRoute isLoggedIn={isLoggedIn}>
-              <Management />
-            </ProtectedRoute>
-          }
-        />
-        <Route
-          path="/volunteer matching"
-          element={
-            <ProtectedRoute isLoggedIn={isLoggedIn}>
-              <Volunteer_Match_Form />
-            </ProtectedRoute>
-          }
-        />
-        <Route
-          path="/volunteer history"
-          element={
-            <ProtectedRoute isLoggedIn={isLoggedIn}>
-              <VolunteerHistory />
-            </ProtectedRoute>
-          }
-        />
+      <Route path="/home" element={<Home_page />} />
 
-        <Route
-          path="/notifications"
-          element={
-            <ProtectedRoute isLoggedIn={isLoggedIn}>
-              <Notifications />
-            </ProtectedRoute>
-          }
-        />
-      </Routes>
-    </Router>
+      {/* Public routes */}
+      <Route
+        path="/login"
+        element={isLoggedIn ? <Navigate to="/profile" replace /> : <Login onLogin={handleLogin} />}
+      />
+      <Route
+        path="/signup"
+        element={isLoggedIn ? <Navigate to="/profile" replace /> : <Signup onSignup={handleSignup} />}
+      />
+
+      {/* Protected routes */}
+      <Route
+        path="/profile"
+        element={
+          <ProtectedRoute isLoggedIn={isLoggedIn}>
+            <User_Profile_Management />
+          </ProtectedRoute>
+        }
+      />
+      <Route
+        path="/event-management"
+        element={
+          <ProtectedRoute isLoggedIn={isLoggedIn}>
+            <Management />
+          </ProtectedRoute>
+        }
+      />
+      <Route
+        path="/volunteer-matching"
+        element={
+          <ProtectedRoute isLoggedIn={isLoggedIn}>
+            <Volunteer_Match_Form />
+          </ProtectedRoute>
+        }
+      />
+      <Route
+        path="/volunteer-history"
+        element={
+          <ProtectedRoute isLoggedIn={isLoggedIn}>
+            <VolunteerHistory />
+          </ProtectedRoute>
+        }
+      />
+      <Route
+        path="/notifications"
+        element={
+          <ProtectedRoute isLoggedIn={isLoggedIn}>
+            <Notifications />
+          </ProtectedRoute>
+        }
+      />
+    </Routes>
+  </Layout>
+</Router>
+
   );
 }
 

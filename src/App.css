@@ -1,4 +1,78 @@
-@reference "tailwindcss";
-body{
-  @apply bg-teal-100 min-h-screen
+body {
+  margin: 0;
+  height: 100vh;
+  /* Complex multi-color gradient with modern colors */
+  background: linear-gradient(135deg, 
+    #667eea 0%, 
+    #764ba2 25%, 
+    #f093fb 50%, 
+    #f5576c 75%, 
+    #4facfe 100%);
+  
+  /* Alternative: Animated gradient background */
+  /* Uncomment below for animated effect */
+  /*
+  background: linear-gradient(-45deg, #ee7752, #e73c7e, #23a6d5, #23d5ab);
+  background-size: 400% 400%;
+  animation: gradientShift 15s ease infinite;
+  */
+  
+  font-family: sans-serif;
+}
+
+/* Animation for gradient (uncomment the animation above to use) */
+@keyframes gradientShift {
+  0% {
+    background-position: 0% 50%;
+  }
+  50% {
+    background-position: 100% 50%;
+  }
+  100% {
+    background-position: 0% 50%;
+  }
+}
+
+/* 🎨 Additional Complex Gradient Options - Replace the body background above with any of these */
+
+/* Option 1: Sunset Vibes */
+.gradient-sunset {
+  background: linear-gradient(45deg, #ff9a9e 0%, #fecfef 25%, #fecfef 75%, #fecfef 100%);
+}
+
+/* Option 2: Ocean Depths */
+.gradient-ocean {
+  background: linear-gradient(180deg, #a8edea 0%, #fed6e3 25%, #d299c2 50%, #fef9d3 75%, #89fffd 100%);
+}
+
+/* Option 3: Northern Lights */
+.gradient-aurora {
+  background: linear-gradient(135deg, #667eea 0%, #764ba2 25%, #f093fb 50%, #f5576c 75%, #4facfe 100%);
+}
+
+/* Option 4: Galaxy */
+.gradient-galaxy {
+  background: linear-gradient(225deg, #2c1810 0%, #614385 25%, #516395 50%, #614385 75%, #2c1810 100%);
+}
+
+/* Option 5: Tropical Paradise */
+.gradient-tropical {
+  background: linear-gradient(60deg, #29ffc6 0%, #20e3b2 25%, #0cebeb 50%, #29ffc6 75%, #ffcc5c 100%);
+}
+
+/* Option 6: Purple Rain */
+.gradient-purple {
+  background: linear-gradient(315deg, #7209b7 0%, #a663cc 25%, #4cc9f0 50%, #7209b7 75%, #560bad 100%);
+}
+
+/* Option 7: Radial Burst */
+.gradient-radial {
+  background: radial-gradient(circle at 30% 40%, #ffecd2 0%, #fcb69f 25%, #ff8a80 50%, #ff7043 75%, #bf360c 100%);
+}
+
+/* Option 8: Animated Rainbow */
+.gradient-animated {
+  background: linear-gradient(-45deg, #ee7752, #e73c7e, #23a6d5, #23d5ab, #ffd89b, #19547b);
+  background-size: 600% 600%;
+  animation: gradientShift 8s ease infinite;
 }
