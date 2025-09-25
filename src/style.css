@@ -1,14 +1,12 @@
 @import 'tailwindcss';
 
 /* Additional styles */
-@import './additional-styles/utility-patterns.css' layer(components);
-@import './additional-styles/theme.css';
+/* @import './additional-styles/utility-patterns.css' layer(components); */
+/* @import './additional-styles/theme.css'; */
 
-@plugin "@tailwindcss/forms" {
-  strategy: base;
-}
+/* Note: @plugin and @theme are Tailwind v4 syntax - using CSS custom properties instead */
 
-@theme {
+:root {
   --font-inter: var(--font-inter), sans-serif;
   --font-nacelle: var(--font-nacelle), sans-serif;
 
@@ -82,12 +80,12 @@
   If we ever want to remove these styles, we need to add an explicit border
   color utility to any element that depends on these defaults.
 */
-@layer base {
-  *,
-  ::after,
-  ::before,
-  ::backdrop,
-  ::file-selector-button {
-    border-color: var(--color-gray-200, currentColor);
-  }
+
+/* Base styles - converted from @layer base for v4 compatibility */
+*,
+::after,
+::before,
+::backdrop,
+::file-selector-button {
+  border-color: var(--color-gray-200, currentColor);
 }
