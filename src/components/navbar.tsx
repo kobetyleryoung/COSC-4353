@@ -13,19 +13,19 @@ const Navbar = ({ isLoggedIn, onLogout }: NavbarProps) => {
           <div className="flex justify-center space-x-8">
             <Link 
               to='/home' 
-              className="text-white font-medium hover:text-blue-200 transition-colors duration-200 px-4 py-2 rounded-lg hover:bg-white/10"
+              className="text-white font-medium hover:underline transition-all duration-200 px-4 py-2"
             >
               Home
             </Link>
             <Link 
               to="/about" 
-              className="text-white font-medium hover:text-blue-200 transition-colors duration-200 px-4 py-2 rounded-lg hover:bg-white/10"
+              className="text-white font-medium hover:underline transition-all duration-200 px-4 py-2"
             >
               About
             </Link>
             <Link 
               to="/login" 
-              className="text-white font-medium hover:text-blue-200 transition-colors duration-200 px-4 py-2 rounded-lg hover:bg-white/10"
+              className="text-white font-medium hover:underline transition-all duration-200 px-4 py-2"
             >
               Login
             </Link>
@@ -34,43 +34,43 @@ const Navbar = ({ isLoggedIn, onLogout }: NavbarProps) => {
           <div className="flex justify-center items-center space-x-6">
             <Link 
               to="/home" 
-              className="text-white font-medium hover:text-blue-200 transition-colors duration-200 px-3 py-2 rounded-lg hover:bg-white/10"
+              className="text-white font-medium hover:underline transition-all duration-200 px-3 py-2"
             >
               Home
             </Link>
             <Link 
               to="/about" 
-              className="text-white font-medium hover:text-blue-200 transition-colors duration-200 px-3 py-2 rounded-lg hover:bg-white/10"
+              className="text-white font-medium hover:underline transition-all duration-200 px-3 py-2"
             >
               About
             </Link>
             <Link 
               to="/profile" 
-              className="text-white font-medium hover:text-blue-200 transition-colors duration-200 px-3 py-2 rounded-lg hover:bg-white/10"
+              className="text-white font-medium hover:underline transition-all duration-200 px-3 py-2"
             >
               Profile
             </Link>
             <Link 
               to="/event-management" 
-              className="text-white font-medium hover:text-blue-200 transition-colors duration-200 px-3 py-2 rounded-lg hover:bg-white/10"
+              className="text-white font-medium hover:underline transition-all duration-200 px-3 py-2"
             >
               Event Management
             </Link>
             <Link 
               to="/volunteer-matching" 
-              className="text-white font-medium hover:text-blue-200 transition-colors duration-200 px-3 py-2 rounded-lg hover:bg-white/10"
+              className="text-white font-medium hover:underline transition-all duration-200 px-3 py-2"
             >
               Volunteer Matching
             </Link>
             <Link 
               to="/volunteer-history" 
-              className="text-white font-medium hover:text-blue-200 transition-colors duration-200 px-3 py-2 rounded-lg hover:bg-white/10"
+              className="text-white font-medium hover:underline transition-all duration-200 px-3 py-2"
             >
               Volunteer History
             </Link>
             <Link 
               to="/notifications" 
-              className="text-white font-medium hover:text-blue-200 transition-colors duration-200 px-3 py-2 rounded-lg hover:bg-white/10"
+              className="text-white font-medium hover:underline transition-all duration-200 px-3 py-2"
             >
               Notifications
             </Link>

@@ -8,7 +8,7 @@ const Management = () => {
     event_Name: "",
     event_Description: "",
     location: "",
-    required_skills: "",
+    required_skills: [] as string[], // Array for multiple skills
     urgency: "",
     availability: [] as string[], // ISO dates as strings
   });
@@ -24,9 +24,21 @@ const Management = () => {
     setFormData({ ...formData, [e.target.name]: e.target.value });
   };
 
-  const handleMultiSelectChange = (e: React.ChangeEvent<HTMLSelectElement>) => {
-    const options = Array.from(e.target.selectedOptions, option => option.value);
-    setFormData({ ...formData, [e.target.name]: options });
+  const handleSkillChange = (skill: string) => {
+    const currentSkills = formData.required_skills;
+    if (currentSkills.includes(skill)) {
+      // Remove skill if already selected
+      setFormData({
+        ...formData,
+        required_skills: currentSkills.filter(s => s !== skill)
+      });
+    } else {
+      // Add skill if not selected
+      setFormData({
+        ...formData,
+        required_skills: [...currentSkills, skill]
+      });
+    }
   };
   {/** */}
   const handleDateChange = (e: React.ChangeEvent<HTMLInputElement>) => {
@@ -91,23 +103,36 @@ const Management = () => {
       {/* Required Skills */}
       <div className="mb-4">
         <label className="block font-medium mb-1">Required Skills *</label>
-        <select
-          name="required_skills"
-          value={formData.required_skills}
-          onChange={handleMultiSelectChange}
-          required
-          multiple
-          className="w-full border rounded px-3 py-2"
-        >
-        <option value="communication">Communication</option>
-        <option value="organization">Organization</option>
-        <option value='adaptability'>Adaptability</option>
-        <option value='customer support'>Customer Support</option>
-        <option value='problem solving'>Problem Solving</option>
-        <option value='teamwork'>Teamwork</option>
-        <option value='time management'>Time Management</option>
-
-        </select>
+        <div className="border rounded px-3 py-2 bg-white">
+          <div className="grid grid-cols-2 gap-3">
+            {[
+              'Communication',
+              'Organization', 
+              'Adaptability',
+              'Customer Support',
+              'Problem Solving',
+              'Teamwork',
+              'Time Management'
+            ].map((skill) => (
+              <label key={skill} className="flex items-center space-x-2 cursor-pointer hover:bg-gray-50 p-1 rounded">
+                <input
+                  type="checkbox"
+                  checked={formData.required_skills.includes(skill.toLowerCase())}
+                  onChange={() => handleSkillChange(skill.toLowerCase())}
+                  className="w-4 h-4 text-blue-600 border-gray-300 rounded focus:ring-blue-500"
+                />
+                <span className="text-sm font-medium text-gray-700">{skill}</span>
+              </label>
+            ))}
+          </div>
+          {formData.required_skills.length > 0 && (
+            <div className="mt-2 pt-2 border-t">
+              <p className="text-xs text-gray-500">
+                Selected: {formData.required_skills.join(', ')}
+              </p>
+            </div>
+          )}
+        </div>
       </div>
 
       {/* Urgent Scale */}
