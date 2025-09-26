@@ -1,7 +1,6 @@
 import { BrowserRouter as Router, Routes, Route, Navigate } from "react-router-dom";
 import { useState } from "react";
 import "./App.css"
-import Navbar from "./components/navbar";
 import Login from "./pages/Authentication/login";
 import Signup from "./pages/Authentication/signup";
 import User_Profile_Management from "./pages/Profile/User_Profile_Management";
@@ -10,6 +9,7 @@ import Volunteer_Match_Form from "./pages/Admins/Volunteer_Match_Form";
 import VolunteerHistory from "./pages/Profile/volunteer_history";
 import Layout from "./components/Layout";
 import Home_page from "./pages/Home_page";
+import About from "./pages/About";
 import Notifications from "./pages/Admins/notification";
 import ProtectedRoute from "./components/ProtectedRoutes";
 
@@ -23,14 +23,15 @@ function App() {
 
   return (
     <Router>
-  <Layout>
-    <Navbar isLoggedIn={isLoggedIn} onLogout={handleLogout} />
+  <Layout isLoggedIn={isLoggedIn} onLogout={handleLogout}>
     <Routes>
       <Route path="/" element={<Navigate to="/home" replace />} />
 
       <Route path="/home" element={<Home_page />} />
 
       {/* Public routes */}
+      <Route path="/about" element={<About />} />
+      
       <Route
         path="/login"
         element={isLoggedIn ? <Navigate to="/profile" replace /> : <Login onLogin={handleLogin} />}

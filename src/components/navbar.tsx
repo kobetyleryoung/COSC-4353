@@ -7,58 +7,80 @@ interface NavbarProps {
 
 const Navbar = ({ isLoggedIn, onLogout }: NavbarProps) => {
   return (
-    <div className="flex justify-end items-center p-4 bg-gray-100 text-white rounded-b-sm border-width: 1px">
-      <nav className="navbar">
+    <div className="bg-white/25 backdrop-blur-lg border-y border-white/20 shadow-lg mb-6">
+      <nav className="max-w-7xl mx-auto px-6 py-4">
         {!isLoggedIn ? (
-          <ul className="flex space-x-6">
-            <li>
-              <Link to='/home' className="hover:underline px-3 py-3 text-white">Home</Link>
-              <Link to="/login" className="hover:underline text-white">
-                Login
-              </Link>
-            </li>
-          </ul>
+          <div className="flex justify-center space-x-8">
+            <Link 
+              to='/home' 
+              className="text-white font-medium hover:text-blue-200 transition-colors duration-200 px-4 py-2 rounded-lg hover:bg-white/10"
+            >
+              Home
+            </Link>
+            <Link 
+              to="/about" 
+              className="text-white font-medium hover:text-blue-200 transition-colors duration-200 px-4 py-2 rounded-lg hover:bg-white/10"
+            >
+              About
+            </Link>
+            <Link 
+              to="/login" 
+              className="text-white font-medium hover:text-blue-200 transition-colors duration-200 px-4 py-2 rounded-lg hover:bg-white/10"
+            >
+              Login
+            </Link>
+          </div>
         ) : (
-          <ul className="flex space-x-6">
-            <li>
-              <Link to="/home" className="hover:underline">
-                Home
-              </Link>
-            </li>
-            <li>
-              <Link to="/profile" className="hover:underline">
-                Profile
-              </Link>
-            </li>
-            <li>
-              <Link to="/event-management" className="hover:underline">
-                Event Management
-              </Link>
-            </li>
-            <li>
-              <Link to="/volunteer-matching" className="hover:underline">
-                Volunteer Matching
-              </Link>
-            </li>
-            <li>
-              <Link to="/volunteer-history" className="hover:underline">
-                Volunteer History
-              </Link>
-            </li>
-            <li>
-              <Link to="/notifications" className="hover:underline">
-                Notifications
-              </Link>
-            </li>
-            <li>
-              <button
-                onClick={onLogout}
-                className="bg-red-500 hover:bg-red-600 px-3 py-1 rounded"
-              >
-                Logout
-              </button>
-            </li>
-          </ul>
+          <div className="flex justify-center items-center space-x-6">
+            <Link 
+              to="/home" 
+              className="text-white font-medium hover:text-blue-200 transition-colors duration-200 px-3 py-2 rounded-lg hover:bg-white/10"
+            >
+              Home
+            </Link>
+            <Link 
+              to="/about" 
+              className="text-white font-medium hover:text-blue-200 transition-colors duration-200 px-3 py-2 rounded-lg hover:bg-white/10"
+            >
+              About
+            </Link>
+            <Link 
+              to="/profile" 
+              className="text-white font-medium hover:text-blue-200 transition-colors duration-200 px-3 py-2 rounded-lg hover:bg-white/10"
+            >
+              Profile
+            </Link>
+            <Link 
+              to="/event-management" 
+              className="text-white font-medium hover:text-blue-200 transition-colors duration-200 px-3 py-2 rounded-lg hover:bg-white/10"
+            >
+              Event Management
+            </Link>
+            <Link 
+              to="/volunteer-matching" 
+              className="text-white font-medium hover:text-blue-200 transition-colors duration-200 px-3 py-2 rounded-lg hover:bg-white/10"
+            >
+              Volunteer Matching
+            </Link>
+            <Link 
+              to="/volunteer-history" 
+              className="text-white font-medium hover:text-blue-200 transition-colors duration-200 px-3 py-2 rounded-lg hover:bg-white/10"
+            >
+              Volunteer History
+            </Link>
+            <Link 
+              to="/notifications" 
+              className="text-white font-medium hover:text-blue-200 transition-colors duration-200 px-3 py-2 rounded-lg hover:bg-white/10"
+            >
+              Notifications
+            </Link>
+            <button
+              onClick={onLogout}
+              className="bg-red-500/80 hover:bg-red-600/90 backdrop-blur-sm text-white font-medium px-4 py-2 rounded-lg transition-all duration-200 shadow-lg hover:shadow-xl"
+            >
+              Logout
+            </button>
+          </div>
         )}
       </nav>
     </div>
