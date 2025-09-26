@@ -2,7 +2,7 @@ import React, { useState } from "react";
 import Availability from "../../components/calendar";
 
 //add skills necessary
-const skillsList = ["Toy"];
+const skillsList = ["communication","organization","adaptability","customer", 'problem solving','teamwork','time management'];
 const statesList = [
   { value: "AL", label: "Alabama" },
   { value: "AK", label: "Alaska" },
