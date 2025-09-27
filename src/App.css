@@ -1,0 +1,40 @@
+body {
+  margin: 0;
+  min-height: 100vh;
+  
+  /* 🌿 Animated GREEN gradient background - Nature vibes */
+  background: linear-gradient(-45deg, #667cb4, #0082c8, #0094cc, #7094ee, #76b8dc);
+  animation: gradientShift 12s ease infinite;
+  
+  font-family: sans-serif;
+}
+
+/* Ensure html also has the gradient for full coverage */
+html {
+  background: linear-gradient(-45deg, #667db6, #0082c8, #0094cc, #667db6, #76b8dc);
+  background-size: 400% 400% !important;
+  animation: gradientShift 12s ease infinite;
+}
+
+/* 🎬 Enhanced Animation for green gradient */
+@keyframes gradientShift {
+  0% {
+    background-position: 0% 50%;
+  }
+  25% {
+    background-position: 100% 50%;
+  }
+  50% {
+    background-position: 100% 100%;
+  }
+  75% {
+    background-position: 0% 100%;
+  }
+  100% {
+    background-position: 0% 50%;
+  }
+}
+
+
+
+

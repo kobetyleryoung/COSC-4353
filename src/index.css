@@ -1,0 +1,45 @@
+@import "tailwindcss";
+
+
+/* 🌍 Global Tailwind-based styles */
+body {
+  /* Background removed to allow App.css gradient to show */
+  color: rgb(17 24 39); /* text-gray-900 */
+  font-family: ui-sans-serif, system-ui, sans-serif; /* font-sans */
+}
+
+h1, h2, h3, h4, h5, h6 {
+  font-weight: 700; /* font-bold */
+  color: rgb(31 41 55); /* text-gray-800 */
+}
+
+p {
+  font-size: 1rem; /* text-base */
+  line-height: 1.5rem;
+  color: rgb(55 65 81); /* text-gray-700 */
+  line-height: 1.625; /* leading-relaxed */
+}
+
+a {
+  color: rgb(37 99 235); /* text-blue-600 */
+  text-decoration-line: underline; /* underline */
+}
+
+a:hover {
+  color: rgb(30 64 175); /* hover:text-blue-800 */
+}
+
+button {
+  padding: 0.5rem 1rem; /* px-4 py-2 */
+  border-radius: 0.5rem; /* rounded-lg */
+  font-weight: 500; /* font-medium */
+  background-color: rgb(37 99 235); /* bg-blue-600 */
+  color: rgb(255 255 255); /* text-white */
+  transition-property: all;
+  transition-timing-function: cubic-bezier(0.4, 0, 0.2, 1);
+  transition-duration: 150ms;
+}
+
+button:hover {
+  background-color: rgb(29 78 216); /* hover:bg-blue-700 */
+}
