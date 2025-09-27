@@ -54,7 +54,7 @@ const Management = () => {
   };
 
   return (
-    <form onSubmit={handleSubmit} className="max-w-xl mx-auto p-6 bg-white shadow-md rounded-lg">
+    <form onSubmit={handleSubmit} autoComplete="off" className="max-w-xl mx-auto p-6 bg-white shadow-md rounded-lg">
       <h2 className="text-2xl font-bold mb-4">Event Management Form</h2>
 
       {/* Event Name */}
