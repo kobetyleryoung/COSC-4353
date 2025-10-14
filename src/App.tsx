@@ -12,15 +12,28 @@ import Notifications from "./pages/Admins/notification";
 import ProtectedRoute from "./components/ProtectedRoutes";
 
 function App() {
-  const { isAuthenticated, isLoading } = useAuth0();
+  const { isAuthenticated, isLoading, logout } = useAuth0();
+
+  const handleLogout = () => {
+    localStorage.clear();
+    logout({ 
+      logoutParams: { 
+        returnTo: window.location.origin 
+      }
+    });
+  };
 
   if (isLoading) {
-    return <div>Loading...</div>;
+    return (
+      <div className="flex items-center justify-center min-h-screen">
+        <div className="text-white text-2xl">Loading...</div>
+      </div>
+    );
   }
 
   return (
     <Router>
-      <Layout isLoggedIn={isAuthenticated} onLogout={() => {}}>
+      <Layout isLoggedIn={isAuthenticated} onLogout={handleLogout}>
         <Routes>
           <Route path="/" element={<Navigate to="/home" replace />} />
           <Route path="/home" element={<Home_page />} />

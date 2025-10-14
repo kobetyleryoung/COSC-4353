@@ -4,9 +4,8 @@ import { useAuth0 } from "@auth0/auth0-react";
 const Navbar = () => {
   const {
     isAuthenticated,
-    loginWithRedirect,
-    logout,
     user,
+    logout,
     isLoading,
   } = useAuth0();
 
@@ -19,7 +18,6 @@ const Navbar = () => {
       </div>
     );
   }
-
   return (
     <div className="bg-white/25 backdrop-blur-lg border-y border-white/20 shadow-lg mb-6">
       <nav className="max-w-7xl mx-auto px-6 py-4">
@@ -32,18 +30,18 @@ const Navbar = () => {
               Home
             </Link>
             <Link
-              to="/about"
+              to="../pages/Authentication/login"
               className="text-white font-medium hover:underline transition-all duration-200 px-4 py-2"
             >
               About
             </Link>
-            <button
-              onClick={() => loginWithRedirect()}
-              className="text-white font-medium hover:underline transition-all duration-200 px-4 py-2"
+            <Link 
+            to='/login'
+            className="text-white font-medium hover:underline transition-all duration-200 px-4 py-2"
             >
-              Login
-            </button>
+            </Link>
           </div>
+          
         ) : (
           <div className="flex justify-center items-center space-x-6">
             <Link
@@ -95,16 +93,16 @@ const Navbar = () => {
               </span>
             )}
 
-            <button
-              onClick={() =>
-                logout({
-                  logoutParams: { returnTo: window.location.origin },
-                })
-              }
-              className="bg-red-500/80 hover:bg-red-600/90 backdrop-blur-sm text-white font-medium px-4 py-2 rounded-lg transition-all duration-200 shadow-lg hover:shadow-xl"
-            >
-              Logout
-            </button>
+              <button
+                onClick={() => logout({ 
+                  logoutParams: { 
+                    returnTo: window.location.origin 
+                  }
+                })}
+                className="bg-red-500/80 hover:bg-red-600/90 backdrop-blur-sm text-white font-medium px-4 py-2 rounded-lg transition-all duration-200 shadow-lg hover:shadow-xl"
+              >
+                Logout
+              </button>
           </div>
         )}
       </nav>
