@@ -1,110 +1,158 @@
-import React, { useMemo, useState } from "react";
+// src/components/VolunteerMatchPanel.tsx
+import React, { useEffect, useState } from "react";
+import { useAuth } from "../../hooks/auth0"; // adjust import path if needed
+import {
+  fetchOpportunities,
+  findMatchingOpportunities,
+  findMatchingVolunteers,
+  createMatchRequest,
+  type OpportunityResponse,
+  type MatchingOpportunitiesResponse,
+  type MatchingVolunteersResponse,
+} from "../../components/api/Volunteer_Matching";
 
-type Volunteer = {
-  id: number;
-  name: string;
-  skills: string[];
-};
+const VolunteerMatchPanel: React.FC = () => {
+  const { user, isAuthenticated, isLoading } = useAuth();
+  const userId = user?.userId ?? null;
 
-type Event = {
-  id: number;
-  title: string;
-  requiredSkills: string[];
-};
+  const [allOpportunities, setAllOpportunities] = useState<OpportunityResponse[]>([]);
+  const [matchedOpportunities, setMatchedOpportunities] = useState<MatchingOpportunitiesResponse | null>(null);
+  const [loading, setLoading] = useState(false);
+  const [error, setError] = useState<string | null>(null);
+  const [applyInProgress, setApplyInProgress] = useState<Record<string, boolean>>({});
 
-// Mock Data (replace with API in production)
-const volunteers: Volunteer[] = [
-  { id: 1, name: "Alice",   skills: ["React", "JavaScript", "CSS"] },
-  { id: 2, name: "Bob",     skills: ["Python", "Data Analysis"] },
-  { id: 3, name: "Charlie", skills: ["Project Management", "Excel"] },
-];
+  useEffect(() => {
+    // load all opportunities for browsing
+    (async () => {
+      setError(null);
+      try {
+        const ops = await fetchOpportunities();
+        setAllOpportunities(ops);
+      } catch (err: any) {
+        setError(err.message || "Could not load opportunities.");
+      }
+    })();
+  }, []);
 
-const events: Event[] = [
-  { id: 1, title: "Hackathon",          requiredSkills: ["React"] },
-  { id: 2, title: "Data Crunch",        requiredSkills: ["Python", "Data Analysis"] },
-  { id: 3, title: "Business Workshop",  requiredSkills: ["Project Management"] },
-];
+  useEffect(() => {
+    if (!userId) {
+      setMatchedOpportunities(null);
+      return;
+    }
 
-const Volunteer_Match_Form: React.FC = () => {
-  const [volunteerId, setVolunteerId] = useState<number | "">("");
+    const loadMatches = async () => {
+      setLoading(true);
+      setError(null);
+      try {
+        const matches = await findMatchingOpportunities(userId);
+        setMatchedOpportunities(matches);
+      } catch (err: any) {
+        setError(err.message || "Failed to find matches.");
+      } finally {
+        setLoading(false);
+      }
+    };
 
-  // Find the selected volunteer
-  const volunteer = useMemo(
-    () => (typeof volunteerId === "number" ? volunteers.find(v => v.id === volunteerId) ?? null : null),
-    [volunteerId]
-  );
+    loadMatches();
+  }, [userId]);
 
-  // Compute matching events whenever volunteer changes
-  const matchedEvents = useMemo(() => {
-    if (!volunteer) return [];
-    return events.filter(ev =>
-      ev.requiredSkills.every(skill => volunteer.skills.includes(skill))
-    );
-  }, [volunteer]);
+  const handleApply = async (opportunityId: string) => {
+    setApplyInProgress(prev => ({ ...prev, [opportunityId]: true }));
+    setError(null);
+    try {
+      await createMatchRequest(opportunityId);
+      // refresh matches / opportunities if needed:
+      if (userId) {
+        const matches = await findMatchingOpportunities(userId);
+        setMatchedOpportunities(matches);
+      }
+    } catch (err: any) {
+      setError(err.message || "Failed to apply.");
+    } finally {
+      setApplyInProgress(prev => ({ ...prev, [opportunityId]: false }));
+    }
+  };
+
+  if (isLoading) {
+    return <div>Checking auth...</div>;
+  }
+
+  if (!isAuthenticated) {
+    return <div>Please log in to see volunteer matches.</div>;
+  }
 
   return (
-    <div className="p-6 max-w-lg mx-auto bg-white shadow rounded">
-      <h2 className="text-xl font-bold mb-4">Volunteer Matching Form</h2>
+    <div className="p-6 max-w-4xl mx-auto">
+      <h2 className="text-xl font-bold mb-4">Volunteer Matching</h2>
 
-      {/* Select Volunteer */}
-      <label className="block font-medium mb-1">Select Volunteer</label>
-      <select
-        className="w-full border rounded px-3 py-2"
-        value={volunteerId === "" ? "" : volunteerId}
-        onChange={(e) => {
-          const val = e.target.value;
-          setVolunteerId(val === "" ? "" : Number(val));
-        }}
-      >
-        <option value="">Choose a volunteer…</option>
-        {volunteers.map(v => (
-          <option key={v.id} value={v.id}>
-            {v.id} — {v.name}
-          </option>
-        ))}
-      </select>
+      {error && (
+        <div className="bg-red-50 border-l-4 border-red-500 p-3 rounded mb-4">
+          <p className="text-red-700">{error}</p>
+        </div>
+      )}
 
-      {/* Auto-filled Volunteer Name */}
-      <div className="mt-4">
-        <label className="block font-medium mb-1">Volunteer Name</label>
-        <input
-          className="w-full border rounded px-3 py-2 bg-gray-50"
-          type="text"
-          value={volunteer?.name ?? ""}
-          readOnly
-          placeholder="(auto-filled)"
-        />
-      </div>
-
-      {/* Auto-filled Matched Event(s) */}
-      <div className="mt-4">
-        <label className="block font-medium mb-1">Matched Event(s)</label>
-        <input
-          className="w-full border rounded px-3 py-2 bg-gray-50"
-          type="text"
-          value={matchedEvents.map(e => e.title).join(", ")}
-          readOnly
-          placeholder="(auto-filled)"
-        />
-        {/* Optional: also list details */}
-        {volunteerId !== "" && (
-          <div className="mt-2">
-            {matchedEvents.length > 0 ? (
-              <ul className="list-disc list-inside text-sm text-gray-700">
-                {matchedEvents.map(e => (
-                  <li key={e.id}>
-                    {e.title} — requires: {e.requiredSkills.join(", ")}
-                  </li>
-                ))}
-              </ul>
-            ) : (
-              <p className="text-sm text-gray-500">No events match this volunteer’s skills.</p>
-            )}
-          </div>
+      <section className="mb-6">
+        <h3 className="font-semibold mb-2">Recommended Opportunities for you</h3>
+        {loading ? (
+          <p>Loading matched opportunities...</p>
+        ) : matchedOpportunities && matchedOpportunities.matches.length > 0 ? (
+          <ul className="space-y-3">
+            {matchedOpportunities.matches.map((m, i) => (
+              <li key={m.opportunity.id} className="p-3 border rounded flex justify-between items-start">
+                <div>
+                  <div className="text-lg font-semibold">{m.opportunity.title}</div>
+                  <div className="text-sm text-gray-600">{m.opportunity.description}</div>
+                  <div className="text-xs text-gray-500 mt-1">
+                    Required: {m.opportunity.required_skills.join(", ") || "—"}
+                  </div>
+                  <div className="text-xs text-gray-700 mt-1">Score: {m.score.total_score.toFixed(2)}</div>
+                </div>
+                <div>
+                  <button
+                    onClick={() => handleApply(m.opportunity.id)}
+                    className="px-3 py-1 bg-blue-600 text-white rounded disabled:opacity-50"
+                    disabled={applyInProgress[m.opportunity.id]}
+                  >
+                    {applyInProgress[m.opportunity.id] ? "Applying…" : "Apply"}
+                  </button>
+                </div>
+              </li>
+            ))}
+          </ul>
+        ) : (
+          <p className="text-sm text-gray-500">No recommended opportunities found.</p>
         )}
-      </div>
+      </section>
+
+      <section>
+        <h3 className="font-semibold mb-2">Browse All Opportunities</h3>
+        {allOpportunities.length === 0 ? (
+          <p className="text-sm text-gray-500">No opportunities available.</p>
+        ) : (
+          <ul className="space-y-3">
+            {allOpportunities.map((opp) => (
+              <li key={opp.id} className="p-3 border rounded flex justify-between items-start">
+                <div>
+                  <div className="text-lg font-semibold">{opp.title}</div>
+                  <div className="text-sm text-gray-600">{opp.description}</div>
+                  <div className="text-xs text-gray-500 mt-1">Required: {opp.required_skills.join(", ") || "—"}</div>
+                </div>
+                <div>
+                  <button
+                    onClick={() => handleApply(opp.id)}
+                    className="px-3 py-1 bg-green-600 text-white rounded disabled:opacity-50"
+                    disabled={applyInProgress[opp.id]}
+                  >
+                    {applyInProgress[opp.id] ? "Applying…" : "Apply"}
+                  </button>
+                </div>
+              </li>
+            ))}
+          </ul>
+        )}
+      </section>
     </div>
   );
 };
 
-export default Volunteer_Match_Form;
+export default VolunteerMatchPanel;
