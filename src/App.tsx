@@ -9,16 +9,16 @@ import Layout from "./components/Layout";
 import Home_page from "./pages/Home_page";
 import About from "./pages/About";
 import Notifications from "./pages/Admins/notification";
-import ProtectedRoute from "./components/ProtectedRoutes";
+import ProtectedRoutes from "./components/ProtectedRoutes";
 
 function App() {
   const { isAuthenticated, isLoading, logout } = useAuth0();
 
   const handleLogout = () => {
     localStorage.clear();
-    logout({ 
-      logoutParams: { 
-        returnTo: window.location.origin 
+    logout({
+      logoutParams: {
+        returnTo: window.location.origin
       }
     });
   };
@@ -38,46 +38,46 @@ function App() {
           <Route path="/" element={<Navigate to="/home" replace />} />
           <Route path="/home" element={<Home_page />} />
           <Route path="/about" element={<About />} />
-          
+         
           {/* Protected routes */}
           <Route
             path="/profile"
             element={
-              <ProtectedRoute isLoggedIn={isAuthenticated}>
+              <ProtectedRoutes>
                 <User_Profile_Management />
-              </ProtectedRoute>
+              </ProtectedRoutes>
             }
           />
           <Route
             path="/event-management"
             element={
-              <ProtectedRoute isLoggedIn={isAuthenticated}>
+              <ProtectedRoutes>
                 <Management />
-              </ProtectedRoute>
+              </ProtectedRoutes>
             }
           />
           <Route
             path="/volunteer-matching"
             element={
-              <ProtectedRoute isLoggedIn={isAuthenticated}>
+              <ProtectedRoutes>
                 <Volunteer_Match_Form />
-              </ProtectedRoute>
+              </ProtectedRoutes>
             }
           />
           <Route
             path="/volunteer-history"
             element={
-              <ProtectedRoute isLoggedIn={isAuthenticated}>
+              <ProtectedRoutes>
                 <VolunteerHistory />
-              </ProtectedRoute>
+              </ProtectedRoutes>
             }
           />
           <Route
             path="/notifications"
             element={
-              <ProtectedRoute isLoggedIn={isAuthenticated}>
+              <ProtectedRoutes>
                 <Notifications />
-              </ProtectedRoute>
+              </ProtectedRoutes>
             }
           />
         </Routes>

@@ -8,8 +8,10 @@ const onRedirectCallback = (appState?: { returnTo?: string }) => {
   const target = appState?.returnTo || "/home";
   window.history.replaceState({}, document.title, target);
 };
-
-ReactDOM.createRoot(document.getElementById("root")!).render(
+const root = ReactDOM.createRoot(
+  document.getElementById('root') as HTMLElement
+);
+root.render(
   <React.StrictMode>
     <Auth0Provider
       domain={import.meta.env.VITE_AUTH0_DOMAIN!}
