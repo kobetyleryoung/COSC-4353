@@ -4,11 +4,9 @@ import { useAuth } from "../../hooks/auth0"; // adjust import path if needed
 import {
   fetchOpportunities,
   findMatchingOpportunities,
-  findMatchingVolunteers,
   createMatchRequest,
   type OpportunityResponse,
   type MatchingOpportunitiesResponse,
-  type MatchingVolunteersResponse,
 } from "../../components/api/Volunteer_Matching";
 
 const VolunteerMatchPanel: React.FC = () => {
@@ -97,7 +95,7 @@ const VolunteerMatchPanel: React.FC = () => {
           <p>Loading matched opportunities...</p>
         ) : matchedOpportunities && matchedOpportunities.matches.length > 0 ? (
           <ul className="space-y-3">
-            {matchedOpportunities.matches.map((m, i) => (
+            {matchedOpportunities.matches.map((m) => (
               <li key={m.opportunity.id} className="p-3 border rounded flex justify-between items-start">
                 <div>
                   <div className="text-lg font-semibold">{m.opportunity.title}</div>

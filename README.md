@@ -142,3 +142,23 @@ npm install && npm run dev
 ```
 
 Visit `http://localhost:5173` to see the application in action!
+
+## 🧪 Mock Data: Volunteer Matching
+
+You can run the volunteer matching UI against static mock data (no backend required).
+
+Enable mock mode by setting a Vite env variable before starting the dev server.
+
+Windows PowerShell example:
+
+```pwsh
+$env:VITE_USE_MOCK = "true"; npm run dev
+```
+
+Alternatively, create a `.env.local` file in the project root with:
+
+```
+VITE_USE_MOCK=true
+```
+
+Then start the dev server normally. Disable by removing/unsetting the env variable or setting it to `false` and restarting.

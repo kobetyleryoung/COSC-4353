@@ -1,5 +1,4 @@
 import React, { useState } from "react";
-import {Event_Date} from "../../components/calendar";
 import VisibilityOutlinedIcon from '@mui/icons-material/VisibilityOutlined';
 import VisibilityOffOutlinedIcon from '@mui/icons-material/VisibilityOffOutlined';
 import { combineDateAndTime, createEvent, type EventCreate } from "../../components/api/EventManagement";
@@ -23,7 +22,8 @@ const Management = () => {
     availability: [] as string[],
   });
 
-  const [loading, setLoading] = useState(false);
+  // Only setter is used; omit state to satisfy noUnusedLocals
+  const [, setLoading] = useState(false);
   const [error, setError] = useState<string | null>(null);
   const [success, setSuccess] = useState(false);
   const [showPassword, setShowPassword] = useState(false);
