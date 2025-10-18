@@ -59,7 +59,7 @@ const Layout = ({ children, isLoggedIn, onLogout }: LayoutProps) => {
                 onClick={handleSignup}
                 className="text-white font-medium hover:text-blue-200 transition-colors duration-200 px-4 py-2 rounded-lg hover:bg-white/10"
               >
-                SignUp
+                Sign Up
               </button>
             </div>
           ) : (
