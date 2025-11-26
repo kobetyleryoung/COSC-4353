@@ -86,6 +86,12 @@ const Navbar = () => {
             >
               Notifications
             </Link>
+            <Link
+              to="/reports"
+              className="text-white font-medium hover:underline transition-all duration-200 px-3 py-2"
+            >
+              Reports
+            </Link>
 
             {user && (
               <span className="text-white/90 font-medium px-2">

@@ -7,6 +7,7 @@ export interface AvailabilityWindow {
 }
 
 export interface ProfileCreate {
+  email: string;
   display_name: string;
   phone: string;
   skills: string[];
@@ -16,6 +17,7 @@ export interface ProfileCreate {
 
 export interface ProfileResponse {
   user_id: string;
+  email: string;
   display_name: string;
   phone: string;
   skills: string[];

@@ -51,7 +51,6 @@ export function combineDateAndTime(date:string, time:string):string {
     return `${date}T${time}:00`
 }
 
-
 export async function createEvent(eventData: EventCreate): Promise<EventResponse> {
     const response  = await fetch(`${API_URL}/api/v1/events/`,{
         method: 'POST',
@@ -62,11 +61,10 @@ export async function createEvent(eventData: EventCreate): Promise<EventResponse
     })
     if(!response.ok){
         const error = await response.json().catch(() => ({detail: response.statusText}));
-        console.error("❌ Event creation failed:", error);
+        console.error("Event creation failed:", error);
         throw new Error(error.detail || "Failed to create Event");
     }
     return response.json()
-
 }
 
 export async function getEvent(event_id: string): Promise<EventResponse> {

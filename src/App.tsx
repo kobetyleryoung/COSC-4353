@@ -9,6 +9,7 @@ import Layout from "./components/Layout";
 import Home_page from "./pages/Home_page";
 import About from "./pages/About";
 import Notifications from "./pages/Admins/notification";
+import ReportsPage from './pages/Admins/volunteer_activities_report'
 import ProtectedRoutes from "./components/ProtectedRoutes";
 
 function App() {
@@ -77,6 +78,14 @@ function App() {
             element={
               <ProtectedRoutes>
                 <Notifications />
+              </ProtectedRoutes>
+            }
+          />
+          <Route
+            path="/reports"
+            element={
+              <ProtectedRoutes>
+                <ReportsPage />
               </ProtectedRoutes>
             }
           />

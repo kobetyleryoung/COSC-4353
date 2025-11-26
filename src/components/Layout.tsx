@@ -71,6 +71,8 @@ const Layout = ({ children, isLoggedIn, onLogout }: LayoutProps) => {
               <Link to="/volunteer-matching" className="text-white font-medium hover:text-blue-200 transition-colors duration-200 px-3 py-2 rounded-lg hover:bg-white/10">Volunteer Matching</Link>
               <Link to="/volunteer-history" className="text-white font-medium hover:text-blue-200 transition-colors duration-200 px-3 py-2 rounded-lg hover:bg-white/10">Volunteer History</Link>
               <Link to="/notifications" className="text-white font-medium hover:text-blue-200 transition-colors duration-200 px-3 py-2 rounded-lg hover:bg-white/10">Notifications</Link>
+              <Link to="/reports" className="text-white font-medium hover:text-blue-200 transition-colors duration-200 px-3 py-2 rounded-lg hover:bg-white/10">Reports</Link>
+
               <button
                 onClick={onLogout}
                 className="bg-red-500/80 hover:bg-red-600/90 backdrop-blur-sm text-white font-medium px-4 py-2 rounded-lg transition-all duration-200 shadow-lg hover:shadow-xl"

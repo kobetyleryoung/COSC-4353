@@ -16,6 +16,7 @@
     "@mui/icons-material": "^7.3.2",
     "@mui/material": "^7.3.2",
     "@tailwindcss/vite": "^4.1.13",
+    "lucide-react": "^0.555.0",
     "react": "^19.1.1",
     "react-dom": "^19.1.1",
     "react-multi-date-picker": "^4.5.2",

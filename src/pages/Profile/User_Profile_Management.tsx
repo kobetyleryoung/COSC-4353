@@ -2,7 +2,16 @@ import React, { useState } from "react";
 import Availability from "../../components/calendar";
 import { createUserProfile, type ProfileCreate, type AvailabilityWindow} from "../../components/api/userProfile";
 
-const skillsList = ["communication","organization","adaptability","customer", 'problem solving','teamwork','time management'];
+const skillsList = [
+  "communication",
+  "organization",
+  "adaptability",
+  "customer support",
+  "problem solving",
+  "teamwork",
+  "time management"
+];
+
 const statesList = [
   { value: "AL", label: "Alabama" },
   { value: "AK", label: "Alaska" },
@@ -58,6 +67,7 @@ const statesList = [
 
 const User_Profile_Management = () => {
   const [formData, setFormData] = useState({
+    email: "",
     fullName: "",
     phone: "",
     address1: "",
@@ -86,6 +96,24 @@ const User_Profile_Management = () => {
     const options = Array.from(e.target.selectedOptions, option => option.value);
     setFormData({ ...formData, [e.target.name]: options });
   };
+
+  const handleSkillChange = (skill: string) => {
+    const currentSkills = formData.skills;
+    if (currentSkills.includes(skill)) {
+      // Remove skill if already selected
+      setFormData({
+        ...formData,
+        skills: currentSkills.filter(s => s !== skill)
+      });
+    } else {
+      // Add skill if not selected
+      setFormData({
+        ...formData,
+        skills: [...currentSkills, skill]
+      });
+    }
+  };
+
   const convertDatesToAvailabilityWindows = (dates: string[]): AvailabilityWindow[] => {
     return dates.map(dateStr => {
       const date = new Date(dateStr);
@@ -118,6 +146,7 @@ const User_Profile_Management = () => {
       if (formData.preferences) tags.push(`pref:${formData.preferences}`);      
 
       const profileData: ProfileCreate = {
+        email: formData.email,
         display_name: formData.fullName,
         phone: formData.phone,
         skills: formData.skills,
@@ -154,6 +183,20 @@ const User_Profile_Management = () => {
           Profile saved successfully!
         </div>
       )}
+
+      {/* Email */}
+      <div className="mb-4">
+        <label className="block font-medium mb-1">Email *</label>
+        <input
+          type="email"
+          name="email"
+          value={formData.email}
+          onChange={handleChange}
+          placeholder="email@example.com"
+          required
+          className="w-full border rounded px-3 py-2"
+        />
+      </div>
 
       {/* Full Name */}
       <div className="mb-4">
@@ -250,18 +293,28 @@ const User_Profile_Management = () => {
       {/* Skills (multi-select) */}
       <div className="mb-4">
         <label className="block font-medium mb-1">Skills *</label>
-        <select
-          name="skills"
-          multiple
-          value={formData.skills}
-          onChange={handleMultiSelectChange}
-          required
-          className="w-full border rounded px-3 py-2 h-28"
-        >
-          {skillsList.map(skill => (
-            <option key={skill} value={skill}>{skill}</option>
-          ))}
-        </select>
+        <div className="border rounded px-3 py-2 bg-white">
+          <div className="grid grid-cols-2 gap-3">
+            {skillsList.map((skill) => (
+              <label key={skill} className="flex items-center space-x-2 cursor-pointer hover:bg-gray-50 p-1 rounded">
+                <input
+                  type="checkbox"
+                  checked={formData.skills.includes(skill)}
+                  onChange={() => handleSkillChange(skill)}
+                  className="w-4 h-4 text-blue-600 border-gray-300 rounded focus:ring-blue-500"
+                />
+                <span className="text-sm font-medium text-gray-700 capitalize">{skill}</span>
+              </label>
+            ))}
+          </div>
+          {formData.skills.length > 0 && (
+            <div className="mt-2 pt-2 border-t">
+              <p className="text-xs text-gray-500">
+                Selected: {formData.skills.join(', ')}
+              </p>
+            </div>
+          )}
+        </div>
       </div>
 
       {/* Preferences */}
