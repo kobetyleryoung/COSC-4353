@@ -55,15 +55,18 @@ const VolunteerMatchPanel: React.FC = () => {
   }, [userId]);
 
   const handleApply = async (opportunityId: string) => {
+    if (!userId) {
+      setError("No user id available. Please log in again.");
+      return;
+    }
+
     setApplyInProgress(prev => ({ ...prev, [opportunityId]: true }));
     setError(null);
     try {
-      await createMatchRequest(opportunityId);
+      await createMatchRequest(userId, opportunityId);
       // refresh matches / opportunities if needed:
-      if (userId) {
-        const matches = await findMatchingOpportunities(userId);
-        setMatchedOpportunities(matches);
-      }
+      const matches = await findMatchingOpportunities(userId);
+      setMatchedOpportunities(matches);
     } catch (err: any) {
       setError(err.message || "Failed to apply.");
     } finally {

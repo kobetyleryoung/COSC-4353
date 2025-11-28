@@ -10,10 +10,24 @@ import Home_page from "./pages/Home_page";
 import About from "./pages/About";
 import Notifications from "./pages/Admins/notification";
 import ReportsPage from './pages/Admins/volunteer_activities_report'
+import { createOrGetUser } from "./components/api/users";
 import ProtectedRoutes from "./components/ProtectedRoutes";
+import { useEffect } from "react";
 
 function App() {
-  const { isAuthenticated, isLoading, logout } = useAuth0();
+  const { isAuthenticated, isLoading, logout, user } = useAuth0();
+  useEffect(() => {
+    if(isAuthenticated && user) {
+      createOrGetUser({
+        email: user.email!, 
+        display_name:user.name || user.email!.split('@')[0],
+        auth0_sub: user.sub!
+      }).catch((err) => {
+        console.error("Error creating/getting user:", err);
+      });
+      
+      }
+  }, [user, isAuthenticated]);
 
   const handleLogout = () => {
     localStorage.clear();

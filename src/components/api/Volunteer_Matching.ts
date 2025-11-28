@@ -142,11 +142,14 @@ export async function findMatchingVolunteers(opportunityId: string, minScore = 0
  * Create a match request (apply) for current user to opportunity.
  * Backend route: POST /match-requests with body { opportunity_id: UUID }
  */
-export async function createMatchRequest(opportunityId: string): Promise<MatchRequestResponse> {
+export async function createMatchRequest(userId: string, opportunityId: string): Promise<MatchRequestResponse> {
   const res = await fetch(`${API_URL}/volunteer-matching/match-requests`, {
     method: "POST",
     headers: { "Content-Type": "application/json" },
-    body: JSON.stringify({ opportunity_id: opportunityId }),
+    body: JSON.stringify({ 
+      opportunity_id: opportunityId,
+      user_id: userId  // Add this
+    }),
   });
   if (!res.ok) {
     const err = await parseError(res);
