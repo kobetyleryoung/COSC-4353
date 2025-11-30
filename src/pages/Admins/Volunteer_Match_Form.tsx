@@ -1,6 +1,7 @@
 // src/components/VolunteerMatchPanel.tsx
 import React, { useEffect, useState } from "react";
 import { useAuth } from "../../hooks/auth0"; // adjust import path if needed
+import useBackendUserId from "../../hooks/useBackendUserId";
 import {
   fetchOpportunities,
   findMatchingOpportunities,
@@ -10,8 +11,8 @@ import {
 } from "../../components/api/Volunteer_Matching";
 
 const VolunteerMatchPanel: React.FC = () => {
-  const { user, isAuthenticated, isLoading } = useAuth();
-  const userId = user?.userId ?? null;
+  const { isAuthenticated, isLoading } = useAuth();
+  const userId = useBackendUserId();
 
   const [allOpportunities, setAllOpportunities] = useState<OpportunityResponse[]>([]);
   const [matchedOpportunities, setMatchedOpportunities] = useState<MatchingOpportunitiesResponse | null>(null);
@@ -55,10 +56,17 @@ const VolunteerMatchPanel: React.FC = () => {
   }, [userId]);
 
   const handleApply = async (opportunityId: string) => {
+    if (!userId) {
+      setError("User ID not available. Please log in again.");
+      return;
+    }
+    
+    console.log('handleApply called with userId:', userId, 'opportunityId:', opportunityId);
+    
     setApplyInProgress(prev => ({ ...prev, [opportunityId]: true }));
     setError(null);
     try {
-      await createMatchRequest(opportunityId);
+      await createMatchRequest(userId, opportunityId);
       // refresh matches / opportunities if needed:
       if (userId) {
         const matches = await findMatchingOpportunities(userId);

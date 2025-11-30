@@ -2,8 +2,10 @@ import React, { useState } from "react";
 import VisibilityOutlinedIcon from '@mui/icons-material/VisibilityOutlined';
 import VisibilityOffOutlinedIcon from '@mui/icons-material/VisibilityOffOutlined';
 import { combineDateAndTime, createEvent, type EventCreate } from "../../components/api/EventManagement";
+import useBackendUserId from "../../hooks/useBackendUserId";
 
 const Management = () => {
+    const userId = useBackendUserId();
     const [formData, setFormData] = useState({
     title: "",
     description: "",
@@ -80,6 +82,7 @@ const Management = () => {
       };
 
       const eventData: EventCreate ={
+        user_id: userId,
         title: formData.title,
         description: formData.description,
         location,
@@ -89,20 +92,17 @@ const Management = () => {
         capacity:formData.capacity ? parseInt(formData.capacity): undefined,
       };
 
+      console.log('Sending event data:', JSON.stringify(eventData, null, 2));
+      
       const result = await createEvent(eventData)
       console.log("Event created successfully!", result)
       setSuccess(true)
     }
     catch (err: any){
-    if (err.response) {
-      const errorData = await err.response.json?.() || err.response.data || err.response;
-      console.error("Error Creating Events:", errorData);
-      setError(JSON.stringify(errorData, null, 2));
-  } else {
       console.error("Error Creating Events:", err);
-      setError(err.message || "failed to save event");
-  }
-}
+      const errorMessage = err instanceof Error ? err.message : 'Failed to create event';
+      setError(errorMessage);
+    }
     finally{
       setLoading(false)
     }
@@ -148,7 +148,7 @@ const Management = () => {
             </div>
             <div className="ml-3 flex-1">
               <p className="text-sm font-bold text-green-800">Success!</p>
-              <p className="text-sm text-green-700 mt-1">Event created successfully! 🎉</p>
+              <p className="text-sm text-green-700 mt-1">Event created successfully!</p>
             </div>
             <button
               onClick={() => setSuccess(false)}

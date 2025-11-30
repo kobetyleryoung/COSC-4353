@@ -7,7 +7,6 @@ interface LoginSignupProps {
 
 const Login_signup: React.FC<LoginSignupProps> = ({ onLogin }) => {
   const [action, setAction] = useState<"Login" | "Sign Up">("Login");
-  const [email, setEmail] = useState("");
   const [password, setPassword] = useState("");
   const [name, setName] = useState("");
 
@@ -15,9 +14,9 @@ const Login_signup: React.FC<LoginSignupProps> = ({ onLogin }) => {
     e.preventDefault();
 
     if (action === "Login") {
-      console.log("Logging in:", email, password);
+      console.log("Logging in with Auth0");
     } else {
-      console.log("Signing up:", name, email, password);
+      console.log("Signing up with Auth0:", name);
     }
 
     onLogin();
@@ -43,17 +42,6 @@ const Login_signup: React.FC<LoginSignupProps> = ({ onLogin }) => {
             />
           </div>
         )}
-
-        {/* Email */}
-        <div className="input">
-          <input
-            type="email"
-            placeholder="Email"
-            value={email}
-            onChange={(e) => setEmail(e.target.value)}
-            required
-          />
-        </div>
 
         {/* Password */}
         <div className="input">

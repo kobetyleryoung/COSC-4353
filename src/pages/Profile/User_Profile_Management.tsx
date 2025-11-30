@@ -1,6 +1,7 @@
-import React, { useState } from "react";
+import React, { useState, useEffect } from "react";
 import Availability from "../../components/calendar";
-import { createUserProfile, type ProfileCreate, type AvailabilityWindow} from "../../components/api/userProfile";
+import { createUserProfile, getUserProfile, updateUserProfile, type ProfileCreate, type ProfileUpdate, type AvailabilityWindow} from "../../components/api/userProfile";
+import useBackendUserId from "../../hooks/useBackendUserId";
 
 const skillsList = ["communication","organization","adaptability","customer", 'problem solving','teamwork','time management'];
 const statesList = [
@@ -57,6 +58,7 @@ const statesList = [
 ];
 
 const User_Profile_Management = () => {
+  const userId = useBackendUserId();
   const [formData, setFormData] = useState({
     fullName: "",
     phone: "",
@@ -73,6 +75,84 @@ const User_Profile_Management = () => {
   const [loading, setLoading] = useState(false);
   const [error, setError] = useState<string | null>(null);
   const [success, setSuccess] = useState(false);
+  const [profileExists, setProfileExists] = useState(false);
+  const [isLoadingProfile, setIsLoadingProfile] = useState(true);
+
+  // Parse tags to extract address, city, state, zip, and preferences
+  const parseTagsToFormData = (tags: string[]) => {
+    const parsed: any = {};
+    tags.forEach(tag => {
+      if (tag.startsWith('address:')) parsed.address1 = tag.substring(8);
+      else if (tag.startsWith('address2:')) parsed.address2 = tag.substring(9);
+      else if (tag.startsWith('city:')) parsed.city = tag.substring(5);
+      else if (tag.startsWith('state:')) parsed.state = tag.substring(6);
+      else if (tag.startsWith('zip:')) parsed.zipCode = tag.substring(4);
+      else if (tag.startsWith('pref:')) parsed.preferences = tag.substring(5);
+    });
+    return parsed;
+  };
+
+  // Convert availability windows back to date strings for calendar component
+  const convertAvailabilityWindowsToDates = (windows: AvailabilityWindow[]): string[] => {
+    // For simplicity, we'll create dates for the next occurrence of each weekday
+    const today = new Date();
+    const dates: string[] = [];
+    
+    windows.forEach(window => {
+      const currentDay = today.getDay();
+      // Convert Monday=0 to Sunday=0
+      const targetDay = (window.weekday + 1) % 7;
+      let daysToAdd = targetDay - currentDay;
+      if (daysToAdd < 0) daysToAdd += 7;
+      
+      const date = new Date(today);
+      date.setDate(today.getDate() + daysToAdd);
+      dates.push(date.toISOString().split('T')[0]);
+    });
+    
+    return dates;
+  };
+
+  // Fetch existing profile on component mount
+  useEffect(() => {
+    const fetchProfile = async () => {
+      if (!userId) {
+        setIsLoadingProfile(false);
+        return;
+      }
+
+      try {
+        const profile = await getUserProfile(userId);
+        
+        // Hydrate form with existing data
+        const parsedTags = parseTagsToFormData(profile.tags);
+        const availabilityDates = convertAvailabilityWindowsToDates(profile.availability);
+        
+        setFormData({
+          fullName: profile.display_name || "",
+          phone: profile.phone || "",
+          address1: parsedTags.address1 || "",
+          address2: parsedTags.address2 || "",
+          city: parsedTags.city || "",
+          state: parsedTags.state || "",
+          zipCode: parsedTags.zipCode || "",
+          skills: profile.skills || [],
+          preferences: parsedTags.preferences || "",
+          availability: availabilityDates,
+        });
+        
+        setProfileExists(true);
+      } catch (err) {
+        // Profile doesn't exist yet, that's okay
+        console.log("No existing profile found, user will create a new one");
+        setProfileExists(false);
+      } finally {
+        setIsLoadingProfile(false);
+      }
+    };
+
+    fetchProfile();
+  }, [userId]);
 
   const handleChange = (e: React.ChangeEvent<HTMLInputElement | HTMLTextAreaElement>) => {
     setFormData({ ...formData, [e.target.name]: e.target.value });
@@ -117,7 +197,8 @@ const User_Profile_Management = () => {
       if (formData.zipCode) tags.push(`zip:${formData.zipCode}`);
       if (formData.preferences) tags.push(`pref:${formData.preferences}`);      
 
-      const profileData: ProfileCreate = {
+      const profileData: ProfileCreate | ProfileUpdate = {
+        user_id: userId,
         display_name: formData.fullName,
         phone: formData.phone,
         skills: formData.skills,
@@ -125,17 +206,42 @@ const User_Profile_Management = () => {
         availability: availabilityWindows,
       };
       
-      const result = await createUserProfile(profileData);
-      console.log("Profile created successfully:", result);
+      console.log('Sending profile data:', JSON.stringify(profileData, null, 2));
+      
+      let result;
+      if (profileExists && userId) {
+        // Update existing profile
+        result = await updateUserProfile(userId, profileData);
+        console.log("Profile updated successfully:", result);
+      } else {
+        // Create new profile
+        result = await createUserProfile(profileData as ProfileCreate);
+        console.log("Profile created successfully:", result);
+        setProfileExists(true);
+      }
+      
       setSuccess(true);
       
     } catch (err) {
-      console.error("Error creating profile:", err);
-      setError(err instanceof Error ? err.message : 'Failed to save profile');
+      console.error("Error saving profile:", err);
+      console.error("Full error object:", JSON.stringify(err, null, 2));
+      const errorMessage = err instanceof Error ? err.message : 'Failed to save profile';
+      setError(errorMessage);
     } finally {
       setLoading(false);
     }
   };
+
+  // Show loading state while fetching profile
+  if (isLoadingProfile) {
+    return (
+      <div className="max-w-xl mx-auto p-6 bg-white shadow-md rounded-lg">
+        <div className="text-center py-8">
+          <p className="text-gray-600">Loading profile...</p>
+        </div>
+      </div>
+    );
+  }
 
   return (
     <form onSubmit={handleSubmit} className="max-w-xl mx-auto p-6 bg-white shadow-md rounded-lg">
@@ -290,7 +396,7 @@ const User_Profile_Management = () => {
           className="px-6 py-2 bg-blue-600 text-white font-semibold rounded hover:bg-blue-700"
           disabled={loading}
         >
-          {loading ? 'saving': 'Save Profile'}
+          {loading ? 'Saving...' : profileExists ? 'Update Profile' : 'Save Profile'}
         </button>
       </div>
     </form>

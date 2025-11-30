@@ -1,7 +1,6 @@
 // src/components/api/VolunteerMatching.ts
 import { v4 as uuidv4 } from "uuid";
-
-const API_URL = "http://localhost:8000/api/v1"; // adjust if your backend URL/port differ
+import { apiFetch } from '../../utils/apiClient';
 
 // Toggle mock mode with Vite env var (add VITE_USE_MOCK=true in .env.local or run with it in your shell)
 const USE_MOCK = (import.meta as any)?.env?.VITE_USE_MOCK === "true";
@@ -210,27 +209,6 @@ function mockCreateMatchRequest(opportunityId: string): MatchRequestResponse {
   };
 }
 
-// --- helpers ---
-async function parseError(response: Response): Promise<string> {
-  // Try to parse FastAPI-style error detail
-  const text = await response.text().catch(() => "");
-  try {
-    const json = JSON.parse(text);
-    const detail = json.detail;
-    if (typeof detail === "string") return detail;
-    if (Array.isArray(detail)) {
-      return detail.map((e: any) => {
-        if (e.loc) return `${e.loc.join(".")}: ${e.msg ?? JSON.stringify(e)}`;
-        return e.msg ?? JSON.stringify(e);
-      }).join("; ");
-    }
-    if (json.error) return json.error;
-    return JSON.stringify(json);
-  } catch {
-    return text || response.statusText;
-  }
-}
-
 //CHECK ROUTES/ API URL's MAKE SURE THEY MATCH SCHEMA IN BACKEND.
 // --- API calls ---
 export async function fetchOpportunities(): Promise<OpportunityResponse[]> {
@@ -239,12 +217,7 @@ export async function fetchOpportunities(): Promise<OpportunityResponse[]> {
     await new Promise((r) => setTimeout(r, 200));
     return [...MOCK_OPPORTUNITIES];
   }
-  const res = await fetch(`${API_URL}/volunteer-matching/opportunities`);
-  if (!res.ok) {
-    const err = await parseError(res);
-    throw new Error(`Failed to load opportunities: ${err}`);
-  }
-  return res.json();
+  return apiFetch<OpportunityResponse[]>('/api/v1/volunteer-matching/opportunities');
 }
 
 export async function fetchOpportunityById(opportunityId: string): Promise<OpportunityResponse> {
@@ -254,12 +227,7 @@ export async function fetchOpportunityById(opportunityId: string): Promise<Oppor
     if (!found) throw new Error("Opportunity not found (mock)");
     return found;
   }
-  const res = await fetch(`${API_URL}/volunteer-matching/opportunities/${opportunityId}`);
-  if (!res.ok) {
-    const err = await parseError(res);
-    throw new Error(`Failed to fetch opportunity: ${err}`);
-  }
-  return res.json();
+  return apiFetch<OpportunityResponse>(`/api/v1/volunteer-matching/opportunities/${opportunityId}`);
 }
 
 /**
@@ -275,18 +243,17 @@ export async function findMatchingOpportunities(userId: string, minScore = 0.5):
     return { matches: filtered, total: filtered.length };
   }
   // Backend route intended: /find-opportunities/{user_id}
-  const res = await fetch(`${API_URL}/volunteer-matching/find-opportunities/${encodeURIComponent(userId)}?min_score=${minScore}`);
-  if (!res.ok) {
-    const err = await parseError(res);
+  try {
+    return await apiFetch<MatchingOpportunitiesResponse>(`/api/v1/volunteer-matching/find-opportunities/${encodeURIComponent(userId)}?min_score=${minScore}`);
+  } catch (error: any) {
     // Graceful fallback: if user profile not found or 404, return mock data
-    if (res.status === 404 || /profile not found/i.test(err)) {
+    if (error.message.includes('404') || /profile not found/i.test(error.message)) {
       const mock = mockFindMatchingOpportunities();
       const filtered = mock.matches.filter((m) => m.score.total_score >= minScore);
       return { matches: filtered, total: filtered.length };
     }
-    throw new Error(`Failed to find matching opportunities: ${err}`);
+    throw error;
   }
-  return res.json();
 }
 
 /**
@@ -297,31 +264,23 @@ export async function findMatchingVolunteers(opportunityId: string, minScore = 0
     await new Promise((r) => setTimeout(r, 250));
     return mockFindMatchingVolunteers(opportunityId, minScore);
   }
-  const res = await fetch(`${API_URL}/volunteer-matching/find-volunteers/${opportunityId}?min_score=${minScore}`);
-  if (!res.ok) {
-    const err = await parseError(res);
-    throw new Error(`Failed to find matching volunteers: ${err}`);
-  }
-  return res.json();
+  return apiFetch<MatchingVolunteersResponse>(`/api/v1/volunteer-matching/find-volunteers/${opportunityId}?min_score=${minScore}`);
 }
 
 /**
  * Create a match request (apply) for current user to opportunity.
- * Backend route: POST /match-requests with body { opportunity_id: UUID }
+ * Backend route: POST /match-requests?user_id={userId} with body { opportunity_id: UUID }
  */
-export async function createMatchRequest(opportunityId: string): Promise<MatchRequestResponse> {
+export async function createMatchRequest(userId: string, opportunityId: string): Promise<MatchRequestResponse> {
   if (USE_MOCK) {
     await new Promise((r) => setTimeout(r, 200));
     return mockCreateMatchRequest(opportunityId);
   }
-  const res = await fetch(`${API_URL}/volunteer-matching/match-requests`, {
+  
+  console.log('Creating match request with userId:', userId, 'opportunityId:', opportunityId);
+  
+  return apiFetch<MatchRequestResponse>(`/api/v1/volunteer-matching/match-requests?user_id=${encodeURIComponent(userId)}`, {
     method: "POST",
-    headers: { "Content-Type": "application/json" },
     body: JSON.stringify({ opportunity_id: opportunityId }),
   });
-  if (!res.ok) {
-    const err = await parseError(res);
-    throw new Error(`Failed to create match request: ${err}`);
-  }
-  return res.json();
 }

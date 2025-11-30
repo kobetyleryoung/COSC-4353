@@ -15,7 +15,7 @@ export function useAuth() {
     isLoading, 
     loginWithRedirect, 
     logout, 
-    getAccessTokenSilently 
+    getIdTokenClaims
   } = useAuth0();
 
   const UUID_NAMESPACE = '6ba7b810-9dad-11d1-80b4-00c04fd430c8';
@@ -35,12 +35,28 @@ export function useAuth() {
     picture: user.picture,
   } : null;
 
+  // Get ID token instead of access token
+  const getAccessToken = async () => {
+    try {
+      const claims = await getIdTokenClaims();
+      if (!claims?.__raw) {
+        console.error('No ID token available');
+        throw new Error('No ID token available');
+      }
+      console.log('Successfully got ID token from Auth0');
+      return claims.__raw;
+    } catch (error: any) {
+      console.error('Failed to get ID token from Auth0:', error);
+      throw error;
+    }
+  };
+
   return {
     user: authUser,
     isAuthenticated,
     isLoading,
     login: loginWithRedirect,
     logout: () => logout({ logoutParams: { returnTo: window.location.origin } }),
-    getAccessToken: getAccessTokenSilently,
+    getAccessToken,
   };
 }

@@ -1,17 +1,16 @@
+import { apiFetch } from '../utils/apiClient';
+
 export const API_BASE = import.meta.env.VITE_API_BASE_URL || "http://localhost:8000";
 
 export async function apiGet<T>(path: string): Promise<T> {
-  const r = await fetch(`${API_BASE}${path}`);
-  if (!r.ok) throw new Error(`${r.status} ${await r.text()}`);
-  return r.json();
+  return apiFetch<T>(path, {
+    method: 'GET',
+  });
 }
 
 export async function apiPost<T>(path: string, body?: any): Promise<T> {
-  const r = await fetch(`${API_BASE}${path}`, {
+  return apiFetch<T>(path, {
     method: "POST",
-    headers: { "Content-Type": "application/json" },
     body: body ? JSON.stringify(body) : undefined,
   });
-  if (!r.ok) throw new Error(`${r.status} ${await r.text()}`);
-  return r.json();
 }

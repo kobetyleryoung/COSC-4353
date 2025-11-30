@@ -10,6 +10,7 @@ import Home_page from "./pages/Home_page";
 import About from "./pages/About";
 import Notifications from "./pages/Admins/notification";
 import ProtectedRoutes from "./components/ProtectedRoutes";
+import { AuthSetup } from "./components/AuthSetup";
 
 function App() {
   const { isAuthenticated, isLoading, logout } = useAuth0();
@@ -32,12 +33,14 @@ function App() {
   }
 
   return (
-    <Router>
-      <Layout isLoggedIn={isAuthenticated} onLogout={handleLogout}>
-        <Routes>
-          <Route path="/" element={<Navigate to="/home" replace />} />
-          <Route path="/home" element={<Home_page />} />
-          <Route path="/about" element={<About />} />
+    <>
+      <AuthSetup />
+      <Router>
+        <Layout isLoggedIn={isAuthenticated} onLogout={handleLogout}>
+          <Routes>
+            <Route path="/" element={<Navigate to="/home" replace />} />
+            <Route path="/home" element={<Home_page />} />
+            <Route path="/about" element={<About />} />
          
           {/* Protected routes */}
           <Route
@@ -83,6 +86,7 @@ function App() {
         </Routes>
       </Layout>
     </Router>
+    </>
   );
 }
 

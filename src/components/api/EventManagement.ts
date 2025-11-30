@@ -1,4 +1,4 @@
-const API_URL = 'http://localhost:8000'
+import { apiFetch } from '../../utils/apiClient';
 
 export interface EventWindow {
   start_date: string; // YYYY-MM-DD
@@ -16,6 +16,7 @@ export interface Location{
 }
 
 export interface EventCreate {
+  user_id: string;
   title: string;
   description: string;
   location: Location | null
@@ -53,49 +54,21 @@ export function combineDateAndTime(date:string, time:string):string {
 
 
 export async function createEvent(eventData: EventCreate): Promise<EventResponse> {
-    const response  = await fetch(`${API_URL}/api/v1/events/`,{
+    return apiFetch<EventResponse>('/api/v1/events/', {
         method: 'POST',
-        headers: {
-            'Content-Type': 'application/json',
-        },
         body: JSON.stringify(eventData),
-    })
-    if(!response.ok){
-        const error = await response.json().catch(() => ({detail: response.statusText}));
-        console.error("❌ Event creation failed:", error);
-        throw new Error(error.detail || "Failed to create Event");
-    }
-    return response.json()
-
+    });
 }
 
 export async function getEvent(event_id: string): Promise<EventResponse> {
-    const response  = await fetch(`${API_URL}/api/v1/events/${event_id}`,{
+    return apiFetch<EventResponse>(`/api/v1/events/${event_id}`, {
         method: 'GET',
-        headers: {
-            'Content-Type': 'application/json',
-        },
-    })
-    if(!response.ok){
-        const error = await response.json().catch(() => ({detail: response.statusText}));
-        throw new Error(error.detail || "Failed to fetch Event")
-    }
-
-    return response.json()
+    });
 }
 
 export async function updateEventProfile(event_id: string, profileData: EventUpdate): Promise<EventResponse> {
-    const response  = await fetch(`${API_URL}/api/v1/events/${event_id}`,{
+    return apiFetch<EventResponse>(`/api/v1/events/${event_id}`, {
         method: 'PUT',
-        headers: {
-            'Content-Type': 'application/json',
-        },
         body: JSON.stringify(profileData),
-    })
-
-    if(!response.ok){
-        const error = await response.json().catch(() => ({detail: response.statusText}));
-        throw new Error(error.detail || "Failed to update Event")
-    }
-        return response.json()
+    });
 }
