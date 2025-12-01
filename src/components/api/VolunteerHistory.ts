@@ -1,6 +1,7 @@
 import { apiFetch } from '../../utils/apiClient';
 
 export interface HistoryEntryCreate {
+  user_id: string;
   event_id: string;
   role: string;
   hours: number;

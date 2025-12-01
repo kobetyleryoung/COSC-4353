@@ -108,12 +108,58 @@ const VolunteerHistory = () => {
           <h1 className="text-3xl font-bold text-gray-900">Volunteer History</h1>
           <p className="text-sm text-gray-600 mt-1">Welcome, {user?.name}!</p>
         </div>
-        <button
-          onClick={() => window.location.href = "/volunteer-history/add"}
-          className="px-4 py-2 bg-blue-600 text-white rounded hover:bg-blue-700"
-        >
-          Add Entry
-        </button>
+          <div className="flex gap-2">
+            <button
+              onClick={() => window.location.href = "/volunteer-history/add"}
+              className="px-4 py-2 bg-blue-600 text-white rounded hover:bg-blue-700"
+            >
+              Add Entry
+            </button>
+            <button
+              onClick={async () => {
+                try {
+                  const response = await fetch("http://localhost:8000/api/v1/reports/volunteer-history/csv");
+                  if (!response.ok) throw new Error("Failed to export CSV");
+                  const blob = await response.blob();
+                  const url = window.URL.createObjectURL(blob);
+                  const a = document.createElement("a");
+                  a.href = url;
+                  a.download = "volunteer_history.csv";
+                  document.body.appendChild(a);
+                  a.click();
+                  a.remove();
+                  window.URL.revokeObjectURL(url);
+                } catch (err) {
+                  alert("Error exporting CSV");
+                }
+              }}
+              className="px-4 py-2 bg-green-600 text-white rounded hover:bg-green-700"
+            >
+              Export CSV
+            </button>
+            <button
+              onClick={async () => {
+                try {
+                  const response = await fetch("http://localhost:8000/api/v1/reports/volunteer-history/pdf");
+                  if (!response.ok) throw new Error("Failed to export PDF");
+                  const blob = await response.blob();
+                  const url = window.URL.createObjectURL(blob);
+                  const a = document.createElement("a");
+                  a.href = url;
+                  a.download = "volunteer_history.pdf";
+                  document.body.appendChild(a);
+                  a.click();
+                  a.remove();
+                  window.URL.revokeObjectURL(url);
+                } catch (err) {
+                  alert("Error exporting PDF");
+                }
+              }}
+              className="px-4 py-2 bg-red-600 text-white rounded hover:bg-red-700"
+            >
+              Export PDF
+            </button>
+          </div>
       </div>
 
       {/* Statistics Cards */}

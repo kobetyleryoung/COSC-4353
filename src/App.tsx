@@ -5,6 +5,7 @@ import User_Profile_Management from "./pages/Profile/User_Profile_Management";
 import Management from "./pages/Admins/Event_Management_Form";
 import Volunteer_Match_Form from "./pages/Admins/Volunteer_Match_Form";
 import VolunteerHistory from "./pages/Profile/volunteer_history";
+import AddVolunteerHistory from "./pages/Profile/AddVolunteerHistory";
 import Layout from "./components/Layout";
 import Home_page from "./pages/Home_page";
 import About from "./pages/About";
@@ -75,6 +76,14 @@ function App() {
               </ProtectedRoutes>
             }
           />
+            <Route
+              path="/volunteer-history/add"
+              element={
+                <ProtectedRoutes>
+                  <AddVolunteerHistory />
+                </ProtectedRoutes>
+              }
+            />
           <Route
             path="/notifications"
             element={
